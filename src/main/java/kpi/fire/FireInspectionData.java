@@ -1,5 +1,7 @@
 package kpi.fire;
 
+import java.util.Arrays;
+
 /**
  * Created by Vitaly Sharapov on 30-Jun-16.
  */
@@ -16,6 +18,8 @@ public class FireInspectionData {
         this.volume = 0;
         this.apertureSpaces = new double[0];
         this.apertureHeights = new double[0];
+        this.solidMaterialLoads = new double[0];
+        this.reducedApertureHeights = new double[0];
         this.height = 0;
     }
 
@@ -73,7 +77,8 @@ public class FireInspectionData {
         return this;
     }
 
-    public FireInspectionData create() {
+    public static FireInspectionData create() {
         return new FireInspectionData();
     }
+
 }
