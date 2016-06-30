@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-# Created by .ignore support plugin (hsz.mobi)
-### Java template
-=======
->>>>>>> b8e45adfacbcd4f278fdd127fc320563db1f45e6
-*.class
-
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -17,3 +10,4 @@
 hs_err_pid*
 
 .idea
+target/
