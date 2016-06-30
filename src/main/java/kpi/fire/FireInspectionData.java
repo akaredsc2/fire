@@ -1,5 +1,6 @@
 package kpi.fire;
 
+//
 import java.util.Arrays;
 
 /**
@@ -8,9 +9,9 @@ import java.util.Arrays;
 public class FireInspectionData {
 
     private double volume;
-    private double[] apertureSpaces;
     private double[] apertureHeights;
-    private double[] solidMaterialLoads;
+    private double[] solidtureSpaces;
+    private double[] aperMaterialLoads;
     private double[] reducedApertureHeights;
     private double height;
 
