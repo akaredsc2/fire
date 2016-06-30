@@ -1,6 +1,5 @@
 package kpi.fire;
 
-//
 import java.util.Arrays;
 
 /**
@@ -17,9 +16,9 @@ public class FireInspectionData {
 
     private FireInspectionData() {
         this.volume = 0;
-        this.apertureSpaces = new double[0];
+        this.aperMaterialLoads = new double[0];
         this.apertureHeights = new double[0];
-        this.solidMaterialLoads = new double[0];
+        this.solidtureSpaces = new double[0];
         this.reducedApertureHeights = new double[0];
         this.height = 0;
     }
@@ -29,7 +28,7 @@ public class FireInspectionData {
     }
 
     public double[] getApertureSpaces() {
-        return apertureSpaces;
+        return aperMaterialLoads;
     }
 
     public double[] getApertureHeights() {
@@ -37,7 +36,7 @@ public class FireInspectionData {
     }
 
     public double[] getSolidMaterialLoads() {
-        return solidMaterialLoads;
+        return solidtureSpaces;
     }
 
     public double[] getReducedApertureHeights() {
@@ -54,7 +53,7 @@ public class FireInspectionData {
     }
 
     public FireInspectionData setApertureSpaces(double[] apertureSpaces) {
-        this.apertureSpaces = apertureSpaces;
+        this.aperMaterialLoads = apertureSpaces;
         return this;
     }
 
@@ -69,7 +68,7 @@ public class FireInspectionData {
     }
 
     public FireInspectionData setSolidMaterialLoads(double[] solidMaterialLoads) {
-        this.solidMaterialLoads = solidMaterialLoads;
+        this.solidtureSpaces = solidMaterialLoads;
         return this;
     }
 
