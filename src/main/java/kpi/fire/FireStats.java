@@ -7,6 +7,11 @@ public class FireStats {
     private double fireLoad;
     private FireKind fireKind;
 
+    public FireStats() {
+        this.fireLoad = 0.0;
+        this.fireKind = null;
+    }
+
     private FireStats(double fireLoad, FireKind fireKind) {
         this.fireLoad = fireLoad;
         this.fireKind = fireKind;

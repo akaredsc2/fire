@@ -4,32 +4,30 @@ import static java.lang.Math.*;
 
 public class Task4 {
 
-    private static final double tW0 = -1.0;
+    private static final double TW0 = -1.0;
 
-    private double fireLoad;
-    private FireKind fireKind;
+    private FireStats fireStats;
     private FireInspectionData data;
 
     public Task4(FireStats fileStats, FireInspectionData data) {
-        this.fireLoad = fileStats.getFireLoad();
-        this.fireKind = fileStats.getFireKind();
+        this.fireStats = fileStats;
         this.data = data;
     }
 
     public double computeMaxTemperature(double[] materialBurningTemperature, double timberAvrSpeedBurn, double[] componentAvrSpeedBurn) {
         double result;
 
-        if (fireKind == FireKind.LOAD_REGULATED) {
-            result = tW0 + 115 * pow(fireLoad, 0.68);
+        if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
+            result = TW0 + 115 * pow(fireStats.getFireLoad(), 0.68);
             return result;
         } else { // fireKing == FireKind.LOAD_REGULATED
             double durationFire = computeDurationFire(materialBurningTemperature, timberAvrSpeedBurn, componentAvrSpeedBurn);
 
             if (durationFire >= 0.15 && durationFire < 0.8) {
-                result = 250 + 1750 * durationFire - 1250 * sqrt(durationFire);
+                result = 250 + 1750 * durationFire - 1250 * pow(durationFire, 2.0);
                 return result;
             } else if (durationFire >= 0.8 && durationFire <= 1.22) {
-                return 850;
+                return 850.0;
             } else {
                 return -1.0; //what will be here
             }
@@ -39,8 +37,8 @@ public class Task4 {
     public double computeTimeAchievementMaxTemperature(double[] materialBurningTemperature, double timberAvrSpeedBurn, double[] componentAvrSpeedBurn) {
         double result;
 
-        if (fireKind == FireKind.LOAD_REGULATED) {
-            result = 35 - 9.3 * pow(fireLoad, 1.55) * exp(-0.445 * fireLoad);
+        if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
+            result = 35 - 9.3 * pow(fireStats.getFireLoad(), 1.55) * exp(-0.445 * fireStats.getFireLoad());
             return result;
         } else { // fireKind == FireKind.VENTILATION_REGULATED
             result = 1.1 * computeDurationFire(materialBurningTemperature, timberAvrSpeedBurn, componentAvrSpeedBurn);
@@ -48,7 +46,7 @@ public class Task4 {
         }
     }
 
-    private double computeDurationFire(double[] materialBurningTemperature, double timberAvrSpeedBurn, double[] componentAvrSpeedBurn) {
+    public double computeDurationFire(double[] materialBurningTemperature, double timberAvrSpeedBurn, double[] componentAvrSpeedBurn) {
         double result;
 
         double firstAuxiliarySum = 0.0;
