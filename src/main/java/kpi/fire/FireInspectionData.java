@@ -1,25 +1,23 @@
 package kpi.fire;
 
-import java.util.Arrays;
-
 /**
  * Created by Vitaly Sharapov on 30-Jun-16.
  */
 public class FireInspectionData {
 
     private double volume;
+    private double[] apertureSpaces;
     private double[] apertureHeights;
-    private double[] solidtureSpaces;
-    private double[] aperMaterialLoads;
-    private double[] reducedApertureHeights;
+    private double[] solidMaterialsLoads;
+    private double reducedH;
     private double height;
 
     private FireInspectionData() {
         this.volume = 0;
-        this.aperMaterialLoads = new double[0];
+        this.apertureSpaces = new double[0];
         this.apertureHeights = new double[0];
-        this.solidtureSpaces = new double[0];
-        this.reducedApertureHeights = new double[0];
+        this.solidMaterialsLoads = new double[0];
+        this.reducedH = 0;
         this.height = 0;
     }
 
@@ -28,19 +26,19 @@ public class FireInspectionData {
     }
 
     public double[] getApertureSpaces() {
-        return aperMaterialLoads;
+        return apertureSpaces;
     }
 
     public double[] getApertureHeights() {
         return apertureHeights;
     }
 
-    public double[] getSolidMaterialLoads() {
-        return solidtureSpaces;
+    public double[] getSolidMaterialsLoads() {
+        return solidMaterialsLoads;
     }
 
-    public double[] getReducedApertureHeights() {
-        return reducedApertureHeights;
+    public double getReducedH() {
+        return reducedH;
     }
 
     public double getHeight() {
@@ -53,7 +51,7 @@ public class FireInspectionData {
     }
 
     public FireInspectionData setApertureSpaces(double[] apertureSpaces) {
-        this.aperMaterialLoads = apertureSpaces;
+        this.apertureSpaces = apertureSpaces;
         return this;
     }
 
@@ -62,13 +60,13 @@ public class FireInspectionData {
         return this;
     }
 
-    public FireInspectionData setReducedApertureHeights(double[] reducedApertureHeights) {
-        this.reducedApertureHeights = reducedApertureHeights;
+    public FireInspectionData setSolidMaterialsLoads(double[] solidMaterialsLoads) {
+        this.solidMaterialsLoads = solidMaterialsLoads;
         return this;
     }
 
-    public FireInspectionData setSolidMaterialLoads(double[] solidMaterialLoads) {
-        this.solidtureSpaces = solidMaterialLoads;
+    public FireInspectionData setReducedH(double reducedH) {
+        this.reducedH = reducedH;
         return this;
     }
 
