@@ -1,8 +1,5 @@
 package kpi.fire;
 
-/**
- * Created by Vitaly Sharapov on 30-Jun-16.
- */
 public class FireInspectionData {
 
     private double volume;
