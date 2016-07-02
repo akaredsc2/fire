@@ -1,13 +1,11 @@
-package kpi.fire;
+package kpi.fire.domain;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
-/**
- * Created by Vitaly Sharapov on 30-Jun-16.
- */
 public class FireInspectionDataTest {
 
     private FireInspectionData data;

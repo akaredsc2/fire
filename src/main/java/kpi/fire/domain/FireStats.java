@@ -1,6 +1,9 @@
-package kpi.fire;
+package kpi.fire.domain;
 
 import static java.lang.Math.*;
+import static kpi.fire.util.MathUtils.dotProduct;
+import static kpi.fire.util.MathUtils.min;
+import static kpi.fire.util.MathUtils.sum;
 
 public class FireStats {
 
@@ -27,10 +30,13 @@ public class FireStats {
 
     public static FireStats computeFireStats(FireInspectionData data) {
         double placementAperture = computeRoomAperture(data);
+
         // FIXME: 01-Jul-16 replace hardcoded array with proper values
         double airPerFireLoad = computeAirPerFireLoad(data.getSolidMaterialsLoads(), new double[]{4.2});
+
         double criticalFireLoad = 4500 * pow(placementAperture, 3) / (1 + 500 * pow(placementAperture, 3))
                 + pow(data.getVolume(), 1.0 / 3.0) / (6 * airPerFireLoad);
+
         // FIXME: 01-Jul-16 replace hardcoded array with proper values
         double fireLoad = computeFireLoad(data, new double[]{13.8});
 
@@ -53,7 +59,7 @@ public class FireStats {
                 result += spaces[i] * sqrt(heights[i]) / pow(volume, 2.0 / 3.0);
             }
         } else {
-            double floorArea = volume / data.getHeight();
+            double floorArea = data.getFloorArea();
             for (int i = 0; i < spaces.length; i++) {
                 result += spaces[i] * sqrt(heights[i]) / floorArea;
             }
@@ -63,45 +69,12 @@ public class FireStats {
     }
 
     private static double computeAirPerFireLoad(double[] materialLoads, double[] airPerMaterial) {
-        double result = 0.0;
-
-        for (int i = 0; i < materialLoads.length; i++) {
-            result += materialLoads[i] * airPerMaterial[i];
-        }
-        double totalMaterialLoad = 0.0;
-        for (int i = 0; i < materialLoads.length; i++) {
-            totalMaterialLoad += materialLoads[i];
-        }
-
-        return result / totalMaterialLoad;
+        return dotProduct(materialLoads, airPerMaterial) / sum(materialLoads);
     }
 
     private static double computeFireLoad(FireInspectionData data, double[] materialBurningTemperature) {
-        double result = 0.0;
-
-        double[] materials = data.getSolidMaterialsLoads();
-        for (int i = 0; i < data.getSolidMaterialsLoads().length; i++) {
-            result += materials[i] * materialBurningTemperature[i];
-        }
-
-        double totalApertureSpace = 0.0;
-        double[] apertureSpaces = data.getApertureSpaces();
-        for (int i = 0; i < apertureSpaces.length; i++) {
-            totalApertureSpace += apertureSpaces[i];
-
-        }
-        result = result / ((6 * pow(data.getVolume(), 2.0 / 3.0) - totalApertureSpace) * min(materialBurningTemperature));
-
-        return result;
+        return dotProduct(data.getSolidMaterialsLoads(), materialBurningTemperature)
+                / ((6 * pow(data.getVolume(), 0.667) - sum(data.getApertureSpaces())) * min(materialBurningTemperature));
     }
 
-    private static double min(double[] array) {
-        double min = Double.MAX_VALUE;
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] < min) {
-                min = array[i];
-            }
-        }
-        return min;
-    }
 }

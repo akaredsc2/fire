@@ -1,6 +1,7 @@
-package kpi.fire;
+package kpi.fire.domain;
 
 import static java.lang.Math.*;
+import static kpi.fire.util.MathUtils.sum;
 
 public class Task2 {
 
@@ -16,6 +17,7 @@ public class Task2 {
                                                      double[] materialBurningTemperature, double timberAvrSpeedBurn,
                                                      double[] componentAvrSpeedBurn) {
         double result = 0.0;
+
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = initialVolumeAverageTemperature + 224 * pow(fireStats.getFireLoad(), 0.528);
         } else {
@@ -23,18 +25,12 @@ public class Task2 {
                     .computeDurationFire(materialBurningTemperature, timberAvrSpeedBurn, componentAvrSpeedBurn);
 
             if (fireDuration >= 0.15 && fireDuration <= 1.22) {
-                // FIXME: 02-Jul-16 extract getters for total loads and floor area
-                double totalSolidMaterialLoads = 0.0;
-                double[] solidMaterialLoads = data.getSolidMaterialsLoads();
-                for (int i = 0; i < solidMaterialLoads.length; i++) {
-                    totalSolidMaterialLoads += solidMaterialLoads[i];
-                }
-                double floorArea = data.getVolume() / data.getHeight();
-                double fireLoad = totalSolidMaterialLoads / floorArea;
-
+                double fireLoad = sum(data.getSolidMaterialsLoads()) / data.getFloorArea();
                 result = 940 * exp(0.0047 * (fireLoad - 30));
             }
+            // FIXME: 02-Jul-16 if not in 0.15 <= t <= 1.22
         }
+
         return result;
     }
 
@@ -45,7 +41,6 @@ public class Task2 {
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = 32 - 8.1 * pow(fireStats.getFireLoad(), 3.2) * exp(-0.92 * fireStats.getFireLoad());
         } else {
-            // FIXME: 02-Jul-16 extract field
             result = new Task4(fireStats, data).computeDurationFire(materialBurningTemperature,
                     timberAvrSpeedBurn, componentAvrSpeedBurn);
         }

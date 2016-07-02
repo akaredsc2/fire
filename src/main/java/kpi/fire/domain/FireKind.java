@@ -1,4 +1,4 @@
-package kpi.fire;
+package kpi.fire.domain;
 
 public enum FireKind {
     LOAD_REGULATED,

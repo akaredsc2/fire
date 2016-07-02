@@ -1,6 +1,7 @@
-package kpi.fire;
+package kpi.fire.domain;
 
 import static java.lang.Math.*;
+import static kpi.fire.util.MathUtils.sum;
 
 public class Task3 {
 
@@ -18,14 +19,7 @@ public class Task3 {
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = 130 * pow(fireStats.getFireLoad(), 0.64) + initialAverageOverlappingAreaTemperature;
         } else {
-            // FIXME: 02-Jul-16 extract getters for total loads and floor area
-            double totalSolidMaterialLoads = 0.0;
-            double[] solidMaterialLoads = data.getSolidMaterialsLoads();
-            for (int i = 0; i < solidMaterialLoads.length; i++) {
-                totalSolidMaterialLoads += solidMaterialLoads[i];
-            }
-            double floorArea = data.getVolume() / data.getHeight();
-            double fireLoad = totalSolidMaterialLoads / floorArea;
+            double fireLoad = sum(data.getSolidMaterialsLoads()) / data.getFloorArea();
             // FIXME: 02-Jul-16 check K.12 and K.7 formulas' exponents
             result = 915 * exp(5 * pow(10, -3 * (fireLoad - 30)));
         }

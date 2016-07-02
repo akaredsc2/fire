@@ -1,4 +1,4 @@
-package kpi.fire;
+package kpi.fire.gui;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

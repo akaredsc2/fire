@@ -1,4 +1,4 @@
-package kpi.fire;
+package kpi.fire.domain;
 
 import static java.lang.Math.*;
 

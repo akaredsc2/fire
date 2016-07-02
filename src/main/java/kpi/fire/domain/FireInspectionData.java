@@ -1,6 +1,7 @@
-package kpi.fire;
+package kpi.fire.domain;
 
-import java.util.stream.DoubleStream;
+import static kpi.fire.util.MathUtils.dotProduct;
+import static kpi.fire.util.MathUtils.sum;
 
 public class FireInspectionData {
 
@@ -8,7 +9,6 @@ public class FireInspectionData {
     private double[] apertureSpaces;
     private double[] apertureHeights;
     private double[] solidMaterialsLoads;
-    private double reducedH;
     private double height;
 
     private FireInspectionData() {
@@ -16,7 +16,6 @@ public class FireInspectionData {
         this.apertureSpaces = new double[0];
         this.apertureHeights = new double[0];
         this.solidMaterialsLoads = new double[0];
-        this.reducedH = 0;
         this.height = 0;
     }
 
@@ -28,10 +27,6 @@ public class FireInspectionData {
         return apertureSpaces;
     }
 
-    public double getTotalApertureSpace() {
-        return DoubleStream.of(apertureSpaces).sum();
-    }
-
     public double[] getApertureHeights() {
         return apertureHeights;
     }
@@ -41,13 +36,7 @@ public class FireInspectionData {
     }
 
     public double getReducedH() {
-        reducedH = 0.0;
-
-        for (int i = 0; i < apertureSpaces.length; i++) {
-            reducedH += apertureSpaces[i] * apertureHeights[i];
-        }
-
-        return reducedH / getTotalApertureSpace();
+        return dotProduct(apertureSpaces, apertureHeights) / sum(apertureSpaces);
     }
 
     public double getHeight() {
