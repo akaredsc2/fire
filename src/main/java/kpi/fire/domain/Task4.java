@@ -1,6 +1,8 @@
 package kpi.fire.domain;
 
 import static java.lang.Math.*;
+import static kpi.fire.util.MathUtils.dotProduct;
+import static kpi.fire.util.MathUtils.sum;
 
 public class Task4 {
 
@@ -47,33 +49,15 @@ public class Task4 {
     }
 
     public double computeDurationFire(double[] materialBurningTemperature, double timberAvrSpeedBurn, double[] componentAvrSpeedBurn) {
-        double result;
+        double firstAuxiliarySum = dotProduct(data.getSolidMaterialsLoads(), materialBurningTemperature);
 
-        double firstAuxiliarySum = 0.0;
-        double[] materials = data.getSolidMaterialsLoads();
-        for (int i = 0; i < materials.length; i++) {
-            firstAuxiliarySum += materials[i] * materialBurningTemperature[i];
-        }
+        double totalApertureSpace = sum(data.getApertureSpaces());
 
-        double totalApertureSpace = 0.0;
-        double[] apertureSpaces = data.getApertureSpaces();
-        for (int i = 0; i < apertureSpaces.length; i++) {
-            totalApertureSpace += apertureSpaces[i];
-        }
+        double totalSolidMaterialLoads = sum(data.getSolidMaterialsLoads());
 
-        double totalSolidMaterialLoads = 0.0;
-        double[] solidMaterialLoads = data.getSolidMaterialsLoads();
-        for (int i = 0; i < solidMaterialLoads.length; i++) {
-            totalSolidMaterialLoads += solidMaterialLoads[i];
-        }
+        double secondAuxiliarySum = dotProduct(componentAvrSpeedBurn, data.getSolidMaterialsLoads());
 
-        double secondAuxiliarySum = 0.0;
-        for (int i = 0; i < componentAvrSpeedBurn.length; i++) {
-            secondAuxiliarySum += componentAvrSpeedBurn[i] * solidMaterialLoads[i];
-        }
-
-        result = firstAuxiliarySum * timberAvrSpeedBurn * totalSolidMaterialLoads / (6285 * totalApertureSpace * sqrt(data.getReducedH()) * secondAuxiliarySum);
-
-        return result;
+        return firstAuxiliarySum * timberAvrSpeedBurn * totalSolidMaterialLoads
+                / (6285 * totalApertureSpace * sqrt(data.getReducedH()) * secondAuxiliarySum);
     }
 }
