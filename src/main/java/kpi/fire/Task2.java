@@ -7,6 +7,11 @@ public class Task2 {
     private FireInspectionData data;
     private FireStats fireStats;
 
+    public Task2(FireInspectionData data, FireStats fireStats) {
+        this.data = data;
+        this.fireStats = fireStats;
+    }
+
     public double computeMaxVolumeAverageTemperature(double initialVolumeAverageTemperature,
                                                      double[] materialBurningTemperature, double timberAvrSpeedBurn,
                                                      double[] componentAvrSpeedBurn) {
@@ -33,9 +38,9 @@ public class Task2 {
         return result;
     }
 
-    public double computeMaxVolumeAverageTemperatureTime(double[] materialBurningTemperature, double timberAvrSpeedBurn,
+    public double computeMaxTemperatureTime(double[] materialBurningTemperature, double timberAvrSpeedBurn,
                                                          double[] componentAvrSpeedBurn) {
-        double result = 0.0;
+        double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = 32 - 8.1 * pow(fireStats.getFireLoad(), 3.2) * exp(-0.92 * fireStats.getFireLoad());

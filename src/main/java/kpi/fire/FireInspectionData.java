@@ -1,5 +1,7 @@
 package kpi.fire;
 
+import java.util.stream.DoubleStream;
+
 public class FireInspectionData {
 
     private double volume;
@@ -26,6 +28,10 @@ public class FireInspectionData {
         return apertureSpaces;
     }
 
+    public double getTotalApertureSpace() {
+        return DoubleStream.of(apertureSpaces).sum();
+    }
+
     public double[] getApertureHeights() {
         return apertureHeights;
     }
@@ -35,11 +41,21 @@ public class FireInspectionData {
     }
 
     public double getReducedH() {
-        return reducedH;
+        reducedH = 0.0;
+
+        for (int i = 0; i < apertureSpaces.length; i++) {
+            reducedH += apertureSpaces[i] * apertureHeights[i];
+        }
+
+        return reducedH / getTotalApertureSpace();
     }
 
     public double getHeight() {
         return height;
+    }
+
+    public double getFloorArea() {
+        return volume / height;
     }
 
     public FireInspectionData setVolume(double volume) {
@@ -59,11 +75,6 @@ public class FireInspectionData {
 
     public FireInspectionData setSolidMaterialsLoads(double[] solidMaterialsLoads) {
         this.solidMaterialsLoads = solidMaterialsLoads;
-        return this;
-    }
-
-    public FireInspectionData setReducedH(double reducedH) {
-        this.reducedH = reducedH;
         return this;
     }
 
