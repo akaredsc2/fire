@@ -15,14 +15,14 @@ public class Task4 {
         this.data = data;
     }
 
-    public double computeMaxTemperature(double timberAvrSpeedBurn) {
+    public double computeMaxTemperature() {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = TW0 + 115 * pow(fireStats.getFireLoad(), 0.68);
             return result;
         } else { // fireKing == FireKind.LOAD_REGULATED
-            double durationFire = data.computeFireDuration(timberAvrSpeedBurn);
+            double durationFire = data.computeFireDuration();
 
             if (durationFire >= 0.15 && durationFire < 0.8) {
                 result = 250 + 1750 * durationFire - 1250 * pow(durationFire, 2.0);
@@ -35,14 +35,14 @@ public class Task4 {
         }
     }
 
-    public double computeTimeAchievementMaxTemperature(double timberAvrSpeedBurn) {
+    public double computeTimeAchievementMaxTemperature() {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = 35 - 9.3 * pow(fireStats.getFireLoad(), 1.55) * exp(-0.445 * fireStats.getFireLoad());
             return result;
         } else { // fireKind == FireKind.VENTILATION_REGULATED
-            result = 1.1 * data.computeFireDuration(timberAvrSpeedBurn);
+            result = 1.1 * data.computeFireDuration();
             return result;
         }
     }

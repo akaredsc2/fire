@@ -77,7 +77,7 @@ public class FireInspectionData {
         return new FireInspectionData();
     }
 
-    public double computeFireDuration(double timberAvrSpeedBurn) {
+    public double computeFireDuration() {
         double firstAuxiliarySum = dotProduct(materialData.getSolidMaterialsLoads(), materialData.getMinBurnTemperatures());
 
         double totalApertureSpace = sum(getApertureSpaces());
@@ -86,7 +86,7 @@ public class FireInspectionData {
 
         double secondAuxiliarySum = dotProduct(materialData.getAverageBurnSpeeds(), materialData.getSolidMaterialsLoads());
 
-        return firstAuxiliarySum * timberAvrSpeedBurn * totalSolidMaterialLoads
+        return firstAuxiliarySum * 2.4 * totalSolidMaterialLoads
                 / (6285 * totalApertureSpace * sqrt(getReducedH()) * secondAuxiliarySum);
     }
 }

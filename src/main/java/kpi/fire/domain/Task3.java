@@ -27,13 +27,13 @@ public class Task3 {
         return result;
     }
 
-    public double computeMaxAverageTemperatureTime(double timberAvrSpeedBurn) {
+    public double computeMaxAverageTemperatureTime() {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = 40 - 17.3 * pow(fireStats.getFireLoad(), 1.32) * exp(-0.4 * fireStats.getFireLoad());
         } else {
-            result = data.computeFireDuration(timberAvrSpeedBurn);
+            result = data.computeFireDuration();
         }
 
         return result;

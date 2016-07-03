@@ -2,16 +2,6 @@ package kpi.fire.util;
 
 public class MathUtils {
 
-    public static double min(double[] array) {
-        double min = Double.MAX_VALUE;
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] < min) {
-                min = array[i];
-            }
-        }
-        return min;
-    }
-
     public static double sum(double[] array) {
         double result = 0.0;
         for (int i = 0; i < array.length; i++) {

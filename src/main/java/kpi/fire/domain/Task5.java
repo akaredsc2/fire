@@ -12,14 +12,14 @@ public class Task5 {
         this.data = data;
     }
 
-    public double computeMaxDensityForWallConstruction(double timberAvrSpeedBurn) {
+    public double computeMaxDensityForWallConstruction() {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = 3.57 * pow(fireStats.getFireLoad(), 0.75);
             return result;
         } else { // fireKing == FireKind.LOAD_REGULATED
-            double durationFire = data.computeFireDuration(timberAvrSpeedBurn);
+            double durationFire = data.computeFireDuration();
 
             if (durationFire > 0.15 && durationFire < 0.8) {
                 result = 43 - 75 * durationFire + 50 * pow(durationFire, 2.0);
@@ -32,14 +32,14 @@ public class Task5 {
         }
     }
 
-    public double computeMaxDensityForCoverageConstruction(double timberAvrSpeedBurn) {
+    public double computeMaxDensityForCoverageConstruction() {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = pow(0.26 * pow(fireStats.getFireLoad(), 0.75) - 3.3 * pow(10.0, -2.0) * pow(fireStats.getFireLoad(), 4.25) * exp(-1.6 * fireStats.getFireLoad()), -1.0);
             return result;
         } else { // fireKing == FireKind.LOAD_REGULATED
-            double durationFire = data.computeFireDuration(timberAvrSpeedBurn);
+            double durationFire = data.computeFireDuration();
 
             if (durationFire > 0.15 && durationFire < 0.8) {
                 result = 65 - 138 * durationFire + 97 * pow(durationFire, 2.0);
