@@ -10,11 +10,6 @@ public class FireStats {
     private double fireLoad;
     private FireKind fireKind;
 
-    public FireStats() {
-        this.fireLoad = 0.0;
-        this.fireKind = null;
-    }
-
     private FireStats(double fireLoad, FireKind fireKind) {
         this.fireLoad = fireLoad;
         this.fireKind = fireKind;
@@ -30,15 +25,10 @@ public class FireStats {
 
     public static FireStats computeFireStats(FireInspectionData data) {
         double placementAperture = computeRoomAperture(data);
-
-        // FIXME: 01-Jul-16 replace hardcoded array with proper values
-        double airPerFireLoad = computeAirPerFireLoad(data.getSolidMaterialsLoads(), new double[]{4.2});
-
+        double airPerFireLoad = computeAirPerFireLoad(data);
         double criticalFireLoad = 4500 * pow(placementAperture, 3) / (1 + 500 * pow(placementAperture, 3))
                 + pow(data.getVolume(), 1.0 / 3.0) / (6 * airPerFireLoad);
-
-        // FIXME: 01-Jul-16 replace hardcoded array with proper values
-        double fireLoad = computeFireLoad(data, new double[]{13.8});
+        double fireLoad = computeFireLoad(data);
 
         if (fireLoad < criticalFireLoad) {
             return new FireStats(fireLoad, FireKind.LOAD_REGULATED);
@@ -68,13 +58,14 @@ public class FireStats {
         return result;
     }
 
-    private static double computeAirPerFireLoad(double[] materialLoads, double[] airPerMaterial) {
-        return dotProduct(materialLoads, airPerMaterial) / sum(materialLoads);
+    private static double computeAirPerFireLoad(FireInspectionData data) {
+        return dotProduct(data.getSolidMaterialsLoads(), data.getAirToBurnAmounts()) / sum(data.getSolidMaterialsLoads());
     }
 
-    private static double computeFireLoad(FireInspectionData data, double[] materialBurningTemperature) {
-        return dotProduct(data.getSolidMaterialsLoads(), materialBurningTemperature)
-                / ((6 * pow(data.getVolume(), 0.667) - sum(data.getApertureSpaces())) * min(materialBurningTemperature));
+    private static double computeFireLoad(FireInspectionData data) {
+        // FIXME: 03-Jul-16 suspicious min
+        return dotProduct(data.getSolidMaterialsLoads(), data.getMinBurnTemperatures())
+                / ((6 * pow(data.getVolume(), 0.667) - sum(data.getApertureSpaces())) * min(data.getMinBurnTemperatures()));
     }
 
 }

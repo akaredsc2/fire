@@ -18,7 +18,7 @@ public class Task2Test {
                 .setApertureSpaces(new double[]{167.0})
                 .setApertureHeights(new double[]{2.89})
                 .setHeight(6.0)
-                .setMaterials(new Material[]{new Material("", 46800.0, 0.0, 13.8, 2.4)});
+                .setMaterials(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)});
         stats = FireStats.computeFireStats(data);
         task2 = new Task2(data, stats);
     }

@@ -16,7 +16,7 @@ public class FireStatsTest {
                 .setApertureSpaces(new double[]{167.0})
                 .setApertureHeights(new double[]{2.89})
                 .setHeight(6.0)
-                .setMaterials(new Material[]{new Material("", 46800.0, 0.0, 0.0, 0.0)});
+                .setMaterials(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)});
     }
 
     @Test

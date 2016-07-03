@@ -34,12 +34,20 @@ public class FireInspectionData {
         return apertureHeights;
     }
 
-    public Material[] getMaterials() {
-        return materials;
-    }
-
     public double[] getSolidMaterialsLoads() {
         return MaterialUtils.extract(materials, Material::getFireLoad);
+    }
+
+    public double[] getMinBurnTemperatures() {
+        return MaterialUtils.extract(materials, Material::getMinBurnTemperature);
+    }
+
+    public double[] getAverageBurnSpeeds() {
+        return MaterialUtils.extract(materials, Material::getAverageBurnSpeed);
+    }
+
+    public double[] getAirToBurnAmounts() {
+        return MaterialUtils.extract(materials, Material::getAirToBurn);
     }
 
     public double getReducedH() {
@@ -84,15 +92,13 @@ public class FireInspectionData {
     }
 
     public double computeFireDuration(double timberAvrSpeedBurn) {
-        double firstAuxiliarySum = dotProduct(getSolidMaterialsLoads(),
-                MaterialUtils.extract(materials, Material::getMinBurnTemperature));
+        double firstAuxiliarySum = dotProduct(getSolidMaterialsLoads(), getMinBurnTemperatures());
 
         double totalApertureSpace = sum(getApertureSpaces());
 
         double totalSolidMaterialLoads = sum(getSolidMaterialsLoads());
 
-        double secondAuxiliarySum = dotProduct(MaterialUtils.extract(materials,
-                Material::getAverageBurnSpeed), getSolidMaterialsLoads());
+        double secondAuxiliarySum = dotProduct(getAverageBurnSpeeds(), getSolidMaterialsLoads());
 
         return firstAuxiliarySum * timberAvrSpeedBurn * totalSolidMaterialLoads
                 / (6285 * totalApertureSpace * sqrt(getReducedH()) * secondAuxiliarySum);
