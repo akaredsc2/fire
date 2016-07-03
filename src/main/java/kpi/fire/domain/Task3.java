@@ -33,8 +33,7 @@ public class Task3 {
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = 40 - 17.3 * pow(fireStats.getFireLoad(), 1.32) * exp(-0.4 * fireStats.getFireLoad());
         } else {
-            result = new Task4(fireStats, data)
-                    .computeDurationFire(data.getMaterials(), timberAvrSpeedBurn);
+            result = data.computeFireDuration(timberAvrSpeedBurn);
         }
 
         return result;

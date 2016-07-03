@@ -19,8 +19,7 @@ public class Task5 {
             result = 3.57 * pow(fireStats.getFireLoad(), 0.75);
             return result;
         } else { // fireKing == FireKind.LOAD_REGULATED
-            Task4 task4 = new Task4(fireStats, data);
-            double durationFire = task4.computeDurationFire(data.getMaterials(), timberAvrSpeedBurn);
+            double durationFire = data.computeFireDuration(timberAvrSpeedBurn);
 
             if (durationFire > 0.15 && durationFire < 0.8) {
                 result = 43 - 75 * durationFire + 50 * pow(durationFire, 2.0);
@@ -40,8 +39,7 @@ public class Task5 {
             result = pow(0.26 * pow(fireStats.getFireLoad(), 0.75) - 3.3 * pow(10.0, -2.0) * pow(fireStats.getFireLoad(), 4.25) * exp(-1.6 * fireStats.getFireLoad()), -1.0);
             return result;
         } else { // fireKing == FireKind.LOAD_REGULATED
-            Task4 task4 = new Task4(fireStats, data);
-            double durationFire = task4.computeDurationFire(data.getMaterials(), timberAvrSpeedBurn);
+            double durationFire = data.computeFireDuration(timberAvrSpeedBurn);
 
             if (durationFire > 0.15 && durationFire < 0.8) {
                 result = 65 - 138 * durationFire + 97 * pow(durationFire, 2.0);

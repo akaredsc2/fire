@@ -1,10 +1,7 @@
 package kpi.fire.domain;
 
-import kpi.fire.util.MaterialUtils;
-
-import static java.lang.Math.*;
-import static kpi.fire.util.MathUtils.dotProduct;
-import static kpi.fire.util.MathUtils.sum;
+import static java.lang.Math.exp;
+import static java.lang.Math.pow;
 
 public class Task4 {
 
@@ -25,7 +22,7 @@ public class Task4 {
             result = TW0 + 115 * pow(fireStats.getFireLoad(), 0.68);
             return result;
         } else { // fireKing == FireKind.LOAD_REGULATED
-            double durationFire = computeDurationFire(data.getMaterials(), timberAvrSpeedBurn);
+            double durationFire = data.computeFireDuration(timberAvrSpeedBurn);
 
             if (durationFire >= 0.15 && durationFire < 0.8) {
                 result = 250 + 1750 * durationFire - 1250 * pow(durationFire, 2.0);
@@ -45,22 +42,9 @@ public class Task4 {
             result = 35 - 9.3 * pow(fireStats.getFireLoad(), 1.55) * exp(-0.445 * fireStats.getFireLoad());
             return result;
         } else { // fireKind == FireKind.VENTILATION_REGULATED
-            result = 1.1 * computeDurationFire(data.getMaterials(), timberAvrSpeedBurn);
+            result = 1.1 * data.computeFireDuration(timberAvrSpeedBurn);
             return result;
         }
-    }
-
-    public double computeDurationFire(Material[] materials, double timberAvrSpeedBurn) {
-        double firstAuxiliarySum = dotProduct(data.getSolidMaterialsLoads(), MaterialUtils.extract(materials, Material::getMinBurnTemperature));
-
-        double totalApertureSpace = sum(data.getApertureSpaces());
-
-        double totalSolidMaterialLoads = sum(data.getSolidMaterialsLoads());
-
-        double secondAuxiliarySum = dotProduct(MaterialUtils.extract(materials, Material::getAverageBurnSpeed), data.getSolidMaterialsLoads());
-
-        return firstAuxiliarySum * timberAvrSpeedBurn * totalSolidMaterialLoads
-                / (6285 * totalApertureSpace * sqrt(data.getReducedH()) * secondAuxiliarySum);
     }
 
 }

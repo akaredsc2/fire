@@ -12,8 +12,7 @@ public class Task6 {
     }
 
     public double computeMaxDensityOfHeatFlow(double timberAvrSpeedBurn) {
-        Task4 task4 = new Task4(new FireStats(), data);
-        double durationFire = task4.computeDurationFire(data.getMaterials(), timberAvrSpeedBurn);
+        double durationFire = data.computeFireDuration(timberAvrSpeedBurn);
 
         double fireLoad = sum(data.getSolidMaterialsLoads()) / data.getFloorArea();
 

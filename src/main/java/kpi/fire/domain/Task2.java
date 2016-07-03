@@ -19,8 +19,7 @@ public class Task2 {
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = initialVolumeAverageTemperature + 224 * pow(fireStats.getFireLoad(), 0.528);
         } else {
-            double fireDuration = new Task4(fireStats, data)
-                    .computeDurationFire(data.getMaterials(), timberAvrSpeedBurn);
+            double fireDuration = data.computeFireDuration(timberAvrSpeedBurn);
 
             if (fireDuration >= 0.15 && fireDuration <= 1.22) {
                 double fireLoad = sum(data.getSolidMaterialsLoads()) / data.getFloorArea();
@@ -38,7 +37,7 @@ public class Task2 {
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = 32 - 8.1 * pow(fireStats.getFireLoad(), 3.2) * exp(-0.92 * fireStats.getFireLoad());
         } else {
-            result = new Task4(fireStats, data).computeDurationFire(data.getMaterials(), timberAvrSpeedBurn);
+            result = data.computeFireDuration(timberAvrSpeedBurn);
         }
 
         return result;

@@ -2,6 +2,7 @@ package kpi.fire.domain;
 
 import kpi.fire.util.MaterialUtils;
 
+import static java.lang.Math.sqrt;
 import static kpi.fire.util.MathUtils.dotProduct;
 import static kpi.fire.util.MathUtils.sum;
 
@@ -82,4 +83,18 @@ public class FireInspectionData {
         return new FireInspectionData();
     }
 
+    public double computeFireDuration(double timberAvrSpeedBurn) {
+        double firstAuxiliarySum = dotProduct(getSolidMaterialsLoads(),
+                MaterialUtils.extract(materials, Material::getMinBurnTemperature));
+
+        double totalApertureSpace = sum(getApertureSpaces());
+
+        double totalSolidMaterialLoads = sum(getSolidMaterialsLoads());
+
+        double secondAuxiliarySum = dotProduct(MaterialUtils.extract(materials,
+                Material::getAverageBurnSpeed), getSolidMaterialsLoads());
+
+        return firstAuxiliarySum * timberAvrSpeedBurn * totalSolidMaterialLoads
+                / (6285 * totalApertureSpace * sqrt(getReducedH()) * secondAuxiliarySum);
+    }
 }
