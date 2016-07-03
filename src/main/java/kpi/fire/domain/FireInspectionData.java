@@ -1,5 +1,7 @@
 package kpi.fire.domain;
 
+import kpi.fire.util.MaterialUtils;
+
 import static kpi.fire.util.MathUtils.dotProduct;
 import static kpi.fire.util.MathUtils.sum;
 
@@ -8,14 +10,14 @@ public class FireInspectionData {
     private double volume;
     private double[] apertureSpaces;
     private double[] apertureHeights;
-    private double[] solidMaterialsLoads;
+    private Material[] materials;
     private double height;
 
     private FireInspectionData() {
         this.volume = 0;
         this.apertureSpaces = new double[0];
         this.apertureHeights = new double[0];
-        this.solidMaterialsLoads = new double[0];
+        this.materials = new Material[0];
         this.height = 0;
     }
 
@@ -31,8 +33,12 @@ public class FireInspectionData {
         return apertureHeights;
     }
 
+    public Material[] getMaterials() {
+        return materials;
+    }
+
     public double[] getSolidMaterialsLoads() {
-        return solidMaterialsLoads;
+        return MaterialUtils.extract(materials, Material::getFireLoad);
     }
 
     public double getReducedH() {
@@ -62,8 +68,8 @@ public class FireInspectionData {
         return this;
     }
 
-    public FireInspectionData setSolidMaterialsLoads(double[] solidMaterialsLoads) {
-        this.solidMaterialsLoads = solidMaterialsLoads;
+    public FireInspectionData setMaterials(Material[] materials) {
+        this.materials = materials;
         return this;
     }
 

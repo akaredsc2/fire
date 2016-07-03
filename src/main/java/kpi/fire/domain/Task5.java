@@ -12,7 +12,7 @@ public class Task5 {
         this.data = data;
     }
 
-    public double computeMaxDensityForWallConstruction(double[] materialBurningTemperature, double timberAvrSpeedBurn, double[] componentAvrSpeedBurn) {
+    public double computeMaxDensityForWallConstruction(double timberAvrSpeedBurn) {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
@@ -20,7 +20,7 @@ public class Task5 {
             return result;
         } else { // fireKing == FireKind.LOAD_REGULATED
             Task4 task4 = new Task4(fireStats, data);
-            double durationFire = task4.computeDurationFire(materialBurningTemperature, timberAvrSpeedBurn, componentAvrSpeedBurn);
+            double durationFire = task4.computeDurationFire(data.getMaterials(), timberAvrSpeedBurn);
 
             if (durationFire > 0.15 && durationFire < 0.8) {
                 result = 43 - 75 * durationFire + 50 * pow(durationFire, 2.0);
@@ -33,7 +33,7 @@ public class Task5 {
         }
     }
 
-    public double computeMaxDensityForCoverageConstruction(double[] materialBurningTemperature, double timberAvrSpeedBurn, double[] componentAvrSpeedBurn) {
+    public double computeMaxDensityForCoverageConstruction(double timberAvrSpeedBurn) {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
@@ -41,7 +41,7 @@ public class Task5 {
             return result;
         } else { // fireKing == FireKind.LOAD_REGULATED
             Task4 task4 = new Task4(fireStats, data);
-            double durationFire = task4.computeDurationFire(materialBurningTemperature, timberAvrSpeedBurn, componentAvrSpeedBurn);
+            double durationFire = task4.computeDurationFire(data.getMaterials(), timberAvrSpeedBurn);
 
             if (durationFire > 0.15 && durationFire < 0.8) {
                 result = 65 - 138 * durationFire + 97 * pow(durationFire, 2.0);
