@@ -25,8 +25,8 @@ public class Task2Test {
 
     @Test
     public void compute() throws Exception {
-        assertEquals(0.4, task2.computeMaxTemperatureTime(new double[]{13.8}, 2.4, new double[]{2.4}), 0.1);
-        assertEquals(897, task2.computeMaxVolumeAverageTemperature(293.0, new double[]{13.8}, 2.4, new double[]{2.4}), 1.0);
+        assertEquals(0.4, task2.computeMaxTemperatureTime(new double[]{13.8}, new double[]{2.4}), 0.1);
+        assertEquals(897, task2.computeMaxVolumeAverageTemperature(293.0, new double[]{13.8}, new double[]{2.4}), 1.0);
     }
 
 }

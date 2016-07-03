@@ -14,7 +14,7 @@ public class Task2 {
     }
 
     public double computeMaxVolumeAverageTemperature(double initialVolumeAverageTemperature,
-                                                     double[] materialBurningTemperature, double timberAvrSpeedBurn,
+                                                     double[] materialBurningTemperature,
                                                      double[] componentAvrSpeedBurn) {
         double result = 0.0;
 
@@ -22,7 +22,7 @@ public class Task2 {
             result = initialVolumeAverageTemperature + 224 * pow(fireStats.getFireLoad(), 0.528);
         } else {
             double fireDuration = new Task4(fireStats, data)
-                    .computeDurationFire(materialBurningTemperature, timberAvrSpeedBurn, componentAvrSpeedBurn);
+                    .computeDurationFire(materialBurningTemperature, componentAvrSpeedBurn);
 
             if (fireDuration >= 0.15 && fireDuration <= 1.22) {
                 double fireLoad = sum(data.getSolidMaterialsLoads()) / data.getFloorArea();
@@ -34,15 +34,14 @@ public class Task2 {
         return result;
     }
 
-    public double computeMaxTemperatureTime(double[] materialBurningTemperature, double timberAvrSpeedBurn,
-                                                         double[] componentAvrSpeedBurn) {
+    public double computeMaxTemperatureTime(double[] materialBurningTemperature, double[] componentAvrSpeedBurn) {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = 32 - 8.1 * pow(fireStats.getFireLoad(), 3.2) * exp(-0.92 * fireStats.getFireLoad());
         } else {
             result = new Task4(fireStats, data).computeDurationFire(materialBurningTemperature,
-                    timberAvrSpeedBurn, componentAvrSpeedBurn);
+                    componentAvrSpeedBurn);
         }
 
         return result;

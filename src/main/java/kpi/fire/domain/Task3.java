@@ -27,15 +27,14 @@ public class Task3 {
         return result;
     }
 
-    public double computeMaxAverageTemperatureTime(double[] materialBurningTemperature,
-                                                   double timberAvrSpeedBurn, double[] componentAvrSpeedBurn) {
+    public double computeMaxAverageTemperatureTime(double[] materialBurningTemperature, double[] componentAvrSpeedBurn) {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = 40 - 17.3 * pow(fireStats.getFireLoad(), 1.32) * exp(-0.4 * fireStats.getFireLoad());
         } else {
             result = new Task4(fireStats, data)
-                    .computeDurationFire(materialBurningTemperature, timberAvrSpeedBurn, componentAvrSpeedBurn);
+                    .computeDurationFire(materialBurningTemperature, componentAvrSpeedBurn);
         }
 
         return result;

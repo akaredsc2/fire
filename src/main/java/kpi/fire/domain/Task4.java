@@ -16,14 +16,14 @@ public class Task4 {
         this.data = data;
     }
 
-    public double computeMaxTemperature(double[] materialBurningTemperature, double timberAvrSpeedBurn, double[] componentAvrSpeedBurn) {
+    public double computeMaxTemperature(double[] materialBurningTemperature, double[] componentAvrSpeedBurn) {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = TW0 + 115 * pow(fireStats.getFireLoad(), 0.68);
             return result;
         } else { // fireKing == FireKind.LOAD_REGULATED
-            double durationFire = computeDurationFire(materialBurningTemperature, timberAvrSpeedBurn, componentAvrSpeedBurn);
+            double durationFire = computeDurationFire(materialBurningTemperature, componentAvrSpeedBurn);
 
             if (durationFire >= 0.15 && durationFire < 0.8) {
                 result = 250 + 1750 * durationFire - 1250 * pow(durationFire, 2.0);
@@ -36,19 +36,19 @@ public class Task4 {
         }
     }
 
-    public double computeTimeAchievementMaxTemperature(double[] materialBurningTemperature, double timberAvrSpeedBurn, double[] componentAvrSpeedBurn) {
+    public double computeTimeAchievementMaxTemperature(double[] materialBurningTemperature, double[] componentAvrSpeedBurn) {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
             result = 35 - 9.3 * pow(fireStats.getFireLoad(), 1.55) * exp(-0.445 * fireStats.getFireLoad());
             return result;
         } else { // fireKind == FireKind.VENTILATION_REGULATED
-            result = 1.1 * computeDurationFire(materialBurningTemperature, timberAvrSpeedBurn, componentAvrSpeedBurn);
+            result = 1.1 * computeDurationFire(materialBurningTemperature, componentAvrSpeedBurn);
             return result;
         }
     }
 
-    public double computeDurationFire(double[] materialBurningTemperature, double timberAvrSpeedBurn, double[] componentAvrSpeedBurn) {
+    public double computeDurationFire(double[] materialBurningTemperature, double[] componentAvrSpeedBurn) {
         double firstAuxiliarySum = dotProduct(data.getSolidMaterialsLoads(), materialBurningTemperature);
 
         double totalApertureSpace = sum(data.getApertureSpaces());
@@ -57,7 +57,7 @@ public class Task4 {
 
         double secondAuxiliarySum = dotProduct(componentAvrSpeedBurn, data.getSolidMaterialsLoads());
 
-        return firstAuxiliarySum * timberAvrSpeedBurn * totalSolidMaterialLoads
+        return firstAuxiliarySum * 2.4 * totalSolidMaterialLoads
                 / (6285 * totalApertureSpace * sqrt(data.getReducedH()) * secondAuxiliarySum);
     }
 }

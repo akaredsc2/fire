@@ -2,7 +2,6 @@ package kpi.fire.domain;
 
 import static java.lang.Math.*;
 import static kpi.fire.util.MathUtils.dotProduct;
-import static kpi.fire.util.MathUtils.min;
 import static kpi.fire.util.MathUtils.sum;
 
 public class FireStats {
@@ -74,7 +73,7 @@ public class FireStats {
 
     private static double computeFireLoad(FireInspectionData data, double[] materialBurningTemperature) {
         return dotProduct(data.getSolidMaterialsLoads(), materialBurningTemperature)
-                / ((6 * pow(data.getVolume(), 0.667) - sum(data.getApertureSpaces())) * min(materialBurningTemperature));
+                / ((6 * pow(data.getVolume(), 0.667) - sum(data.getApertureSpaces())) * 13.8);
     }
 
 }
