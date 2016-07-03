@@ -4,9 +4,9 @@ import kpi.fire.domain.Material;
 
 import java.util.function.Function;
 
-public class MaterialUtils {
+public class ArrayUtils {
 
-    public static double[] extract(Material[] materials, Function<Material, Double> function) {
+    public static double[] map(Material[] materials, Function<Material, Double> function) {
         double[] result = new double[materials.length];
 
         for (int i = 0; i < materials.length; i++) {
@@ -16,7 +16,7 @@ public class MaterialUtils {
         return result;
     }
 
-    public static String[] extractNames(Material[] materials) {
+    public static String[] mapToNames(Material[] materials) {
         String[] result = new String[materials.length];
 
         for (int i = 0; i < result.length; i++) {

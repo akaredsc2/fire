@@ -1,7 +1,5 @@
 package kpi.fire.domain;
 
-import kpi.fire.util.MaterialUtils;
-
 import static java.lang.Math.sqrt;
 import static kpi.fire.util.MathUtils.dotProduct;
 import static kpi.fire.util.MathUtils.sum;
@@ -11,14 +9,14 @@ public class FireInspectionData {
     private double volume;
     private double[] apertureSpaces;
     private double[] apertureHeights;
-    private Material[] materials;
+    private MaterialData materialData;
     private double height;
 
     private FireInspectionData() {
         this.volume = 0;
         this.apertureSpaces = new double[0];
         this.apertureHeights = new double[0];
-        this.materials = new Material[0];
+        this.materialData = new MaterialData();
         this.height = 0;
     }
 
@@ -34,20 +32,8 @@ public class FireInspectionData {
         return apertureHeights;
     }
 
-    public double[] getSolidMaterialsLoads() {
-        return MaterialUtils.extract(materials, Material::getFireLoad);
-    }
-
-    public double[] getMinBurnTemperatures() {
-        return MaterialUtils.extract(materials, Material::getMinBurnTemperature);
-    }
-
-    public double[] getAverageBurnSpeeds() {
-        return MaterialUtils.extract(materials, Material::getAverageBurnSpeed);
-    }
-
-    public double[] getAirToBurnAmounts() {
-        return MaterialUtils.extract(materials, Material::getAirToBurn);
+    public MaterialData getMaterialData() {
+        return materialData;
     }
 
     public double getReducedH() {
@@ -77,8 +63,8 @@ public class FireInspectionData {
         return this;
     }
 
-    public FireInspectionData setMaterials(Material[] materials) {
-        this.materials = materials;
+    public FireInspectionData setMaterialData(MaterialData materialData) {
+        this.materialData = materialData;
         return this;
     }
 
@@ -92,13 +78,13 @@ public class FireInspectionData {
     }
 
     public double computeFireDuration(double timberAvrSpeedBurn) {
-        double firstAuxiliarySum = dotProduct(getSolidMaterialsLoads(), getMinBurnTemperatures());
+        double firstAuxiliarySum = dotProduct(materialData.getSolidMaterialsLoads(), materialData.getMinBurnTemperatures());
 
         double totalApertureSpace = sum(getApertureSpaces());
 
-        double totalSolidMaterialLoads = sum(getSolidMaterialsLoads());
+        double totalSolidMaterialLoads = sum(materialData.getSolidMaterialsLoads());
 
-        double secondAuxiliarySum = dotProduct(getAverageBurnSpeeds(), getSolidMaterialsLoads());
+        double secondAuxiliarySum = dotProduct(materialData.getAverageBurnSpeeds(), materialData.getSolidMaterialsLoads());
 
         return firstAuxiliarySum * timberAvrSpeedBurn * totalSolidMaterialLoads
                 / (6285 * totalApertureSpace * sqrt(getReducedH()) * secondAuxiliarySum);

@@ -22,7 +22,7 @@ public class Task2 {
             double fireDuration = data.computeFireDuration(timberAvrSpeedBurn);
 
             if (fireDuration >= 0.15 && fireDuration <= 1.22) {
-                double fireLoad = sum(data.getSolidMaterialsLoads()) / data.getFloorArea();
+                double fireLoad = sum(data.getMaterialData().getSolidMaterialsLoads()) / data.getFloorArea();
                 result = 940 * exp(0.0047 * (fireLoad - 30));
             }
             // FIXME: 02-Jul-16 if not in 0.15 <= t <= 1.22

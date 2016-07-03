@@ -25,7 +25,7 @@ public class FireStats {
 
     public static FireStats computeFireStats(FireInspectionData data) {
         double placementAperture = computeRoomAperture(data);
-        double airPerFireLoad = computeAirPerFireLoad(data);
+        double airPerFireLoad = computeAirPerFireLoad(data.getMaterialData());
         double criticalFireLoad = 4500 * pow(placementAperture, 3) / (1 + 500 * pow(placementAperture, 3))
                 + pow(data.getVolume(), 1.0 / 3.0) / (6 * airPerFireLoad);
         double fireLoad = computeFireLoad(data);
@@ -58,14 +58,14 @@ public class FireStats {
         return result;
     }
 
-    private static double computeAirPerFireLoad(FireInspectionData data) {
+    private static double computeAirPerFireLoad(MaterialData data) {
         return dotProduct(data.getSolidMaterialsLoads(), data.getAirToBurnAmounts()) / sum(data.getSolidMaterialsLoads());
     }
 
     private static double computeFireLoad(FireInspectionData data) {
         // FIXME: 03-Jul-16 suspicious min
-        return dotProduct(data.getSolidMaterialsLoads(), data.getMinBurnTemperatures())
-                / ((6 * pow(data.getVolume(), 0.667) - sum(data.getApertureSpaces())) * min(data.getMinBurnTemperatures()));
+        return dotProduct(data.getMaterialData().getSolidMaterialsLoads(), data.getMaterialData().getMinBurnTemperatures())
+                / ((6 * pow(data.getVolume(), 0.667) - sum(data.getApertureSpaces())) * min(data.getMaterialData().getMinBurnTemperatures()));
     }
 
 }
