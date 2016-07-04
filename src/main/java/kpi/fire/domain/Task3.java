@@ -20,8 +20,7 @@ public class Task3 {
             result = 130 * pow(fireStats.getFireLoad(), 0.64) + initialAverageOverlappingAreaTemperature;
         } else {
             double fireLoad = sum(data.getMaterialData().getSolidMaterialsLoads()) / data.getFloorArea();
-            // FIXME: 02-Jul-16 check K.12 and K.7 formulas' exponents
-            result = 915 * exp(5 * pow(10, -3 * (fireLoad - 30)));
+            result = 915 * exp(5 * pow(10, -3) * (fireLoad - 30));
         }
 
         return result;
@@ -38,7 +37,5 @@ public class Task3 {
 
         return result;
     }
-
-    // TODO: 02-Jul-16 delta temperature (K.14 formula)
 
 }

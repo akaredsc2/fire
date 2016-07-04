@@ -43,6 +43,4 @@ public class Task2 {
         return result;
     }
 
-    // TODO: 02-Jul-16 delta temperature (K.10 formula)
-
 }
