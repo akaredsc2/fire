@@ -12,12 +12,23 @@ public class FireFrame extends JFrame {
     final JTextField textFieldForVolume;
     final JTextField textFieldForHeight;
     final JTextArea textArea;
+    final JTextField textFieldForChipboardHeaver;
+    final JTextField textFieldForLiningHeaver;
+    final JTextField textFieldForPlasticHeaver;
+    final JTextField textFieldForWoodHeaver;
+    JCheckBox chipboard;
+    JCheckBox lining;
+    JCheckBox plastic;
+    JCheckBox wood;
 
     public FireFrame() {
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
         textFieldForVolume = new JTextField(5);
         textFieldForHeight = new JTextField(5);
+
+        JPanel panelOuter = new JPanel();
+        panelOuter.setLayout(new GridLayout(3, 1));
 
         JPanel panelOuterForData = new JPanel();
         JPanel panelData = new JPanel();
@@ -27,19 +38,58 @@ public class FireFrame extends JFrame {
         panelData.add(new JLabel("h: ", SwingConstants.RIGHT));
         panelData.add(textFieldForHeight);
         panelOuterForData.add(panelData);
-        add(panelOuterForData, BorderLayout.NORTH);
 
-        // JList
-        /*
-        String[] data = {"one", "two", "three", "four"};
-        JList dataList = new JList(data);
-        JScrollPane scrollPane = new JScrollPane(dataList);
+        panelOuter.add(panelOuterForData);
 
-        JPanel panel1 = new JPanel();
-        panel1.add(scrollPane);
+        ActionListener listenerForCheckBoxes = new ActionListener() {
+            public void actionPerformed(ActionEvent event)
+            {
+                if (chipboard.isSelected()) textFieldForChipboardHeaver.setEnabled(true);
+                else textFieldForChipboardHeaver.setEnabled(false);
+                if (lining.isSelected()) textFieldForLiningHeaver.setEnabled(true);
+                else textFieldForLiningHeaver.setEnabled(false);
+                if (plastic.isSelected()) textFieldForPlasticHeaver.setEnabled(true);
+                else textFieldForPlasticHeaver.setEnabled(false);
+                if (wood.isSelected()) textFieldForWoodHeaver.setEnabled(true);
+                else textFieldForWoodHeaver.setEnabled(false);
+            }
+        };
 
-        add(panel1, BorderLayout.CENTER);
-        */
+        JPanel panelOuterForMaterial = new JPanel();
+        chipboard = new JCheckBox("ДСП");
+        chipboard.addActionListener(listenerForCheckBoxes);
+        lining = new JCheckBox("Вагонка");
+        lining.addActionListener(listenerForCheckBoxes);
+        plastic = new JCheckBox("Пластмаса");
+        plastic.addActionListener(listenerForCheckBoxes);
+        wood = new JCheckBox("Дерево");
+        wood.addActionListener(listenerForCheckBoxes);
+        panelOuterForMaterial.add(new JLabel("Горючі тверді матеріали"));
+        panelOuterForMaterial.add(chipboard);
+        panelOuterForMaterial.add(lining);
+        panelOuterForMaterial.add(plastic);
+        panelOuterForMaterial.add(wood);
+
+        panelOuter.add(panelOuterForMaterial);
+
+        JPanel panelOuterForHeaver = new JPanel();
+        textFieldForChipboardHeaver = new JTextField(5);
+        textFieldForChipboardHeaver.setEnabled(false);
+        textFieldForLiningHeaver = new JTextField(5);
+        textFieldForLiningHeaver.setEnabled(false);
+        textFieldForPlasticHeaver = new JTextField(5);
+        textFieldForPlasticHeaver.setEnabled(false);
+        textFieldForWoodHeaver = new JTextField(5);
+        textFieldForWoodHeaver.setEnabled(false);
+        panelOuterForHeaver.add(new JLabel("Пожежна нагрузка в кг"));
+        panelOuterForHeaver.add(textFieldForChipboardHeaver);
+        panelOuterForHeaver.add(textFieldForLiningHeaver);
+        panelOuterForHeaver.add(textFieldForPlasticHeaver);
+        panelOuterForHeaver.add(textFieldForWoodHeaver);
+
+        panelOuter.add(panelOuterForHeaver);
+
+        add(panelOuter, BorderLayout.NORTH);
 
         textArea = new JTextArea(50, 50);
         JScrollPane scrollPane = new JScrollPane(textArea);
