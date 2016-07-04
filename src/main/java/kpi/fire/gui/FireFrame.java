@@ -81,19 +81,15 @@ public class FireFrame extends JFrame {
         buttonComputeTask5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event)
             {
-                double[] apertureHeights = new double[]{2.89}; // from user
-                double[] apertureSpaces = new double[]{167.0}; // from user
-
                 FireInspectionData data = FireInspectionData.create()
                         .setVolume(Double.parseDouble(textFieldForVolume.getText()))
-                        .setApertureHeights(apertureHeights)
-                        .setApertureSpaces(apertureSpaces)
+                        .setApertureData(new ApertureData(new Aperture[] {new Aperture(167.0, 2.89)}))
                         .setHeight(Double.parseDouble(textFieldForHeight.getText()))
                         .setMaterialData(new MaterialData(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)}));
 
                 FireStats stat = FireStats.computeFireStats(data);
 
-                Task6 task6 = new Task6(data, stat);
+                Task6 task6 = new Task6(data);
 
                 textArea.append("Задача №5" + '\n');
 
@@ -123,8 +119,6 @@ public class FireFrame extends JFrame {
         }
 
         public void actionPerformed(ActionEvent event) {
-            double[] apertureHeights = new double[]{2.89}; // from user
-            double[] apertureSpaces = new double[]{167.0}; // from user
             double initialTemperature = 293.0; // check it later
             double initialTemperature2 = -1.0; // for Tw0
 
@@ -141,8 +135,7 @@ public class FireFrame extends JFrame {
 
             FireInspectionData data = FireInspectionData.create()
                     .setVolume(Double.parseDouble(textFieldForVolume.getText()))
-                    .setApertureHeights(apertureHeights)
-                    .setApertureSpaces(apertureSpaces)
+                    .setApertureData(new ApertureData(new Aperture[] {new Aperture(167.0, 2.89)}))
                     .setHeight(Double.parseDouble(textFieldForHeight.getText()))
                     .setMaterialData(new MaterialData(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)}));
 

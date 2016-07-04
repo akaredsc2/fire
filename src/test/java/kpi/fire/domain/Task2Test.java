@@ -15,8 +15,7 @@ public class Task2Test {
     public void setUp() throws Exception {
         data = FireInspectionData.create()
                 .setVolume(14040.0)
-                .setApertureSpaces(new double[]{167.0})
-                .setApertureHeights(new double[]{2.89})
+                .setApertureData(new ApertureData(new Aperture[] {new Aperture(167.0, 2.89)}))
                 .setHeight(6.0)
                 .setMaterialData(new MaterialData(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)}));
         stats = FireStats.computeFireStats(data);

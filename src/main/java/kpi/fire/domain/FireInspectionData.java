@@ -7,15 +7,13 @@ import static kpi.fire.util.MathUtils.sum;
 public class FireInspectionData {
 
     private double volume;
-    private double[] apertureSpaces;
-    private double[] apertureHeights;
+    private ApertureData apertureData;
     private MaterialData materialData;
     private double height;
 
     private FireInspectionData() {
         this.volume = 0;
-        this.apertureSpaces = new double[0];
-        this.apertureHeights = new double[0];
+        this.apertureData = new ApertureData();
         this.materialData = new MaterialData();
         this.height = 0;
     }
@@ -24,12 +22,8 @@ public class FireInspectionData {
         return volume;
     }
 
-    public double[] getApertureSpaces() {
-        return apertureSpaces;
-    }
-
-    public double[] getApertureHeights() {
-        return apertureHeights;
+    public ApertureData getApertureData() {
+        return apertureData;
     }
 
     public MaterialData getMaterialData() {
@@ -37,7 +31,8 @@ public class FireInspectionData {
     }
 
     public double getReducedH() {
-        return dotProduct(apertureSpaces, apertureHeights) / sum(apertureSpaces);
+        return dotProduct(apertureData.getApertureSpaces(), apertureData.getApertureHeights())
+                / sum(apertureData.getApertureSpaces());
     }
 
     public double getHeight() {
@@ -53,13 +48,8 @@ public class FireInspectionData {
         return this;
     }
 
-    public FireInspectionData setApertureSpaces(double[] apertureSpaces) {
-        this.apertureSpaces = apertureSpaces;
-        return this;
-    }
-
-    public FireInspectionData setApertureHeights(double[] apertureHeights) {
-        this.apertureHeights = apertureHeights;
+    public FireInspectionData setApertureData(ApertureData apertureData) {
+        this.apertureData = apertureData;
         return this;
     }
 
@@ -80,7 +70,7 @@ public class FireInspectionData {
     public double computeFireDuration() {
         double firstAuxiliarySum = dotProduct(materialData.getSolidMaterialsLoads(), materialData.getMinBurnTemperatures());
 
-        double totalApertureSpace = sum(getApertureSpaces());
+        double totalApertureSpace = sum(apertureData.getApertureSpaces());
 
         double totalSolidMaterialLoads = sum(materialData.getSolidMaterialsLoads());
 

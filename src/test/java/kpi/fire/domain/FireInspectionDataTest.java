@@ -22,11 +22,11 @@ public class FireInspectionDataTest {
 
         data.setHeight(1.0)
                 .setVolume(2.0)
-                .setApertureHeights(new double[]{3.0, 4.0});
+                .setApertureData(new ApertureData(new Aperture[] {new Aperture(167.0, 3.0), new Aperture(0.0, 4.0)}));
 
         assertEquals(1.0, data.getHeight(), 0.0);
         assertEquals(2.0, data.getVolume(), 0.0);
-        assertArrayEquals(new double[] {3.0, 4.0}, data.getApertureHeights(), 0.0);
+        assertArrayEquals(new double[] {3.0, 4.0}, data.getApertureData().getApertureHeights(), 0.0);
     }
 
 }

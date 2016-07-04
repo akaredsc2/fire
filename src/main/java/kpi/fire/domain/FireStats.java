@@ -1,6 +1,7 @@
 package kpi.fire.domain;
 
-import static java.lang.Math.*;
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 import static kpi.fire.util.MathUtils.dotProduct;
 import static kpi.fire.util.MathUtils.sum;
 
@@ -40,8 +41,8 @@ public class FireStats {
         double result = 0.0;
 
         double volume = data.getVolume();
-        double[] spaces = data.getApertureSpaces();
-        double[] heights = data.getApertureHeights();
+        double[] spaces = data.getApertureData().getApertureSpaces();
+        double[] heights = data.getApertureData().getApertureHeights();
 
         if (volume <= 10.0) {
             for (int i = 0; i < spaces.length; i++) {
@@ -62,9 +63,8 @@ public class FireStats {
     }
 
     private static double computeFireLoad(FireInspectionData data) {
-        // FIXME: 03-Jul-16 suspicious min
         return dotProduct(data.getMaterialData().getSolidMaterialsLoads(), data.getMaterialData().getMinBurnTemperatures())
-                / ((6 * pow(data.getVolume(), 0.667) - sum(data.getApertureSpaces())) * 13.8);
+                / ((6 * pow(data.getVolume(), 0.667) - sum(data.getApertureData().getApertureSpaces())) * 13.8);
     }
 
 }

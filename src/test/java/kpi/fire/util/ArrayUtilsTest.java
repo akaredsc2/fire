@@ -32,9 +32,6 @@ public class ArrayUtilsTest {
         double[] expectedAverageBurnSpeed = new double[]{4.0, 8.0};
         assertArrayEquals(expectedAverageBurnSpeed,
                 ArrayUtils.map(materials, Material::getAverageBurnSpeed), 0.01);
-
-        String[] expectedNames = new String[] {"cocaine", "heroin"};
-        assertArrayEquals(expectedNames, ArrayUtils.mapToNames(materials));
     }
 
 }

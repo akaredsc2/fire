@@ -6,11 +6,9 @@ import static kpi.fire.util.MathUtils.sum;
 public class Task6 {
 
     private FireInspectionData data;
-    private FireStats fireStats;
 
-    public Task6(FireInspectionData data, FireStats fireStats) {
+    public Task6(FireInspectionData data) {
         this.data = data;
-        this.fireStats = fireStats;
     }
 
     public double computeMaxDensityOfHeatFlow() {
