@@ -36,4 +36,8 @@ public class Material {
         return averageBurnSpeed;
     }
 
+    public Material setFireLoad(double fireLoad) {
+        this.fireLoad = fireLoad;
+        return this;
+    }
 }

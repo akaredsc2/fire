@@ -19,7 +19,7 @@ public class FireFrame extends JFrame {
     public FireFrame() {
         materialCheckboxContainers = new LinkedList<>();
         // TODO: 07-Jul-16 fill with real data
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("ДСП", 0.0, 0.0, 0.0, 0.0)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("ДСП", 0.0, 4.2, 13.8, 2.4)));
         materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Вагонка", 0.0, 0.0, 0.0, 0.0)));
         materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластмаса", 0.0, 0.0, 0.0, 0.0)));
         materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Дерево", 0.0, 0.0, 0.0, 0.0)));
@@ -37,38 +37,44 @@ public class FireFrame extends JFrame {
 
     private class TaskAction implements ActionListener {
 
-        private String task;
+        private String taskName;
 
-        public TaskAction(String task) {
-            this.task = task;
+        public TaskAction(String taskName) {
+            this.taskName = taskName;
         }
 
         public void actionPerformed(ActionEvent event) {
             double initialTemperature = 293.0; // check it later
             double initialTemperature2 = -1.0; // for Tw0
 
+            Material[] materials = materialCheckboxContainers.stream()
+                    .filter(x -> x.getCheckBox().isEnabled())
+                    // TODO: 07-Jul-16 check input and reformat
+                    .map(x->x.getMaterial().setFireLoad(Double.parseDouble(x.getTextField().getText())))
+                    .toArray(Material[]::new);
+
             FireInspectionData data = FireInspectionData.create()
                     .setVolume(Double.parseDouble(textFieldForVolume.getText()))
                     .setApertureData(new ApertureData(new Aperture[]{new Aperture(167.0, 2.89)}))
                     .setHeight(Double.parseDouble(textFieldForHeight.getText()))
-                    .setMaterialData(new MaterialData(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)}));
+                    .setMaterialData(new MaterialData(materials));
 
             FireStats stat = FireStats.computeFireStats(data);
 
             ReportableTask reportableTask;
-            if (task.equals("task2")) {
+            if (taskName.equals("task2")) {
                 reportableTask = new Task2(data, stat, initialTemperature);
-            } else if (task.equals("task3")) {
+            } else if (taskName.equals("task3")) {
                 reportableTask = new Task3(data, stat, initialTemperature2);
-            } else if (task.equals("task4")) {
+            } else if (taskName.equals("task4")) {
                 reportableTask = new Task4(stat, data);
-            } else if (task.equals("task5")) {
+            } else if (taskName.equals("task5")) {
                 reportableTask = new Task5(stat, data);
             } else {
                 reportableTask = new Task6(data);
             }
 
-            textArea.append(reportableTask.reportTask(task));
+            textArea.append(reportableTask.reportTask(taskName));
             textArea.append(new String(new char[120]).replace("\0", "-") + '\n');
         }
     }
@@ -121,6 +127,7 @@ public class FireFrame extends JFrame {
         JPanel panelMenu = new JPanel();
         panelMenu.setLayout(new GridLayout(5, 2));
 
+        // TODO: 07-Jul-16 remove unnecessary param
         addButtonToPanel(panelMenu, "Задача №2 ", "Обчислити", new TaskAction("task2"));
         addButtonToPanel(panelMenu, "Задача №3 ", "Обчислити", new TaskAction("task3"));
         addButtonToPanel(panelMenu, "Задача №4 ", "Обчислити", new TaskAction("task4"));
@@ -133,4 +140,3 @@ public class FireFrame extends JFrame {
     }
 
 }
-
