@@ -44,13 +44,13 @@ public class FireFrame extends JFrame {
         }
 
         public void actionPerformed(ActionEvent event) {
-            double initialTemperature = 293.0; // check it later
-            double initialTemperature2 = -1.0; // for Tw0
+            for (MaterialCheckboxContainer container : materialCheckboxContainers) {
+                container.getMaterial().setFireLoad(0.0);
+            }
 
             Material[] materials = materialCheckboxContainers.stream()
-                    .filter(x -> x.getCheckBox().isEnabled())
-                    // TODO: 07-Jul-16 check input and reformat
-                    .map(x->x.getMaterial().setFireLoad(Double.parseDouble(x.getTextField().getText())))
+                    .filter(x -> x.getCheckBox().isSelected())
+                    .map(FireFrame.this::processInput)
                     .toArray(Material[]::new);
 
             FireInspectionData data = FireInspectionData.create()
@@ -63,9 +63,11 @@ public class FireFrame extends JFrame {
 
             ReportableTask reportableTask;
             if (taskName.equals("task2")) {
+                double initialTemperature = 293.0;
                 reportableTask = new Task2(data, stat, initialTemperature);
             } else if (taskName.equals("task3")) {
-                reportableTask = new Task3(data, stat, initialTemperature2);
+                double initialTemperature = -1.0;
+                reportableTask = new Task3(data, stat, initialTemperature);
             } else if (taskName.equals("task4")) {
                 reportableTask = new Task4(stat, data);
             } else if (taskName.equals("task5")) {
@@ -94,7 +96,6 @@ public class FireFrame extends JFrame {
         panelOuterForData.add(panelData);
         panelOuter.add(panelOuterForData);
 
-        // TODO: 07-Jul-16 compact or change format
         JPanel panelOuterForMaterial = new JPanel();
         panelOuterForMaterial.add(new JLabel("Горючі тверді матеріали"));
         for (MaterialCheckboxContainer container : materialCheckboxContainers) {
@@ -116,9 +117,9 @@ public class FireFrame extends JFrame {
         panel.add(textField);
     }
 
-    private void addButtonToPanel(JPanel panel, String labelText, String buttonText, ActionListener listener) {
+    private void addButtonToPanel(JPanel panel, String labelText, ActionListener listener) {
         panel.add(new JLabel(labelText, SwingConstants.RIGHT));
-        JButton buttonComputeTask1 = new JButton(buttonText);
+        JButton buttonComputeTask1 = new JButton("Обчислити");
         panel.add(buttonComputeTask1);
         buttonComputeTask1.addActionListener(listener);
     }
@@ -127,16 +128,25 @@ public class FireFrame extends JFrame {
         JPanel panelMenu = new JPanel();
         panelMenu.setLayout(new GridLayout(5, 2));
 
-        // TODO: 07-Jul-16 remove unnecessary param
-        addButtonToPanel(panelMenu, "Задача №2 ", "Обчислити", new TaskAction("task2"));
-        addButtonToPanel(panelMenu, "Задача №3 ", "Обчислити", new TaskAction("task3"));
-        addButtonToPanel(panelMenu, "Задача №4 ", "Обчислити", new TaskAction("task4"));
-        addButtonToPanel(panelMenu, "Задача №5 ", "Обчислити", new TaskAction("task5"));
-        addButtonToPanel(panelMenu, "Задача №6 ", "Обчислити", new TaskAction("task6"));
+        addButtonToPanel(panelMenu, "Задача №2 ", new TaskAction("task2"));
+        addButtonToPanel(panelMenu, "Задача №3 ", new TaskAction("task3"));
+        addButtonToPanel(panelMenu, "Задача №4 ", new TaskAction("task4"));
+        addButtonToPanel(panelMenu, "Задача №5 ", new TaskAction("task5"));
+        addButtonToPanel(panelMenu, "Задача №6 ", new TaskAction("task6"));
 
         JPanel panelOuterForMenu = new JPanel();
         panelOuterForMenu.add(panelMenu);
         add(panelOuterForMenu, BorderLayout.SOUTH);
+    }
+
+    private Material processInput(MaterialCheckboxContainer container) {
+        Material material = container.getMaterial();
+        String input = container.getTextField().getText();
+        double parsedInput;
+        if (input.matches("[0-9]+(\\.[0-9][0-9]?)?") && (parsedInput = Double.parseDouble(input)) > 0) {
+            material.setFireLoad(parsedInput);
+        }
+        return material;
     }
 
 }
