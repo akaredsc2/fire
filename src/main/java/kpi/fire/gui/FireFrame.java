@@ -18,11 +18,10 @@ public class FireFrame extends JFrame {
 
     public FireFrame() {
         materialCheckboxContainers = new LinkedList<>();
-        // TODO: 07-Jul-16 fill with real data
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("ДСП", 0.0, 4.2, 13.8, 2.4)));
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Вагонка", 0.0, 0.0, 0.0, 0.0)));
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластмаса", 0.0, 0.0, 0.0, 0.0)));
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Дерево", 0.0, 0.0, 0.0, 0.0)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("ДСП", 0.0, 1.0, 18.0, 1.0)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Вагонка", 0.0, 1.0, 1.0, 1.0)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластмаса", 0.0, 1.0, 41.87, 1.0)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Дерево", 0.0, 4.2, 13.8, 2.4)));
 
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
@@ -44,10 +43,6 @@ public class FireFrame extends JFrame {
         }
 
         public void actionPerformed(ActionEvent event) {
-            for (MaterialCheckboxContainer container : materialCheckboxContainers) {
-                container.getMaterial().setFireLoad(0.0);
-            }
-
             Material[] materials = materialCheckboxContainers.stream()
                     .filter(x -> x.getCheckBox().isSelected())
                     .map(FireFrame.this::processInput)
@@ -78,6 +73,10 @@ public class FireFrame extends JFrame {
 
             textArea.append(reportableTask.reportTask(taskName));
             textArea.append(new String(new char[120]).replace("\0", "-") + '\n');
+
+            for (MaterialCheckboxContainer container : materialCheckboxContainers) {
+                container.getMaterial().setFireLoad(0.0);
+            }
         }
     }
 
