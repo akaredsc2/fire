@@ -1,163 +1,38 @@
 package kpi.fire.gui;
 
+import kpi.fire.domain.*;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-
-import kpi.fire.domain.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 public class FireFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 640;
     private static final int DEFAULT_HEIGHT = 480;
-    final JTextField textFieldForVolume;
-    final JTextField textFieldForHeight;
-    final JTextArea textArea;
-    final JTextField textFieldForChipboardHeaver;
-    final JTextField textFieldForLiningHeaver;
-    final JTextField textFieldForPlasticHeaver;
-    final JTextField textFieldForWoodHeaver;
-    JCheckBox chipboard;
-    JCheckBox lining;
-    JCheckBox plastic;
-    JCheckBox wood;
+    private JTextField textFieldForVolume;
+    private JTextField textFieldForHeight;
+    private final JTextArea textArea;
+    private LinkedList<MaterialCheckboxContainer> materialCheckboxContainers;
 
     public FireFrame() {
+        materialCheckboxContainers = new LinkedList<>();
+        // TODO: 07-Jul-16 fill with real data
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("ДСП", 0.0, 0.0, 0.0, 0.0)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Вагонка", 0.0, 0.0, 0.0, 0.0)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластмаса", 0.0, 0.0, 0.0, 0.0)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Дерево", 0.0, 0.0, 0.0, 0.0)));
+
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
-        textFieldForVolume = new JTextField(5);
-        textFieldForHeight = new JTextField(5);
-
-        JPanel panelOuter = new JPanel();
-        panelOuter.setLayout(new GridLayout(3, 1));
-
-        JPanel panelOuterForData = new JPanel();
-        JPanel panelData = new JPanel();
-        panelData.setLayout(new GridLayout(2, 2));
-        panelData.add(new JLabel("V: ", SwingConstants.RIGHT));
-        panelData.add(textFieldForVolume);
-        panelData.add(new JLabel("h: ", SwingConstants.RIGHT));
-        panelData.add(textFieldForHeight);
-        panelOuterForData.add(panelData);
-
-        panelOuter.add(panelOuterForData);
-
-        ActionListener listenerForCheckBoxes = new ActionListener() {
-            public void actionPerformed(ActionEvent event)
-            {
-                if (chipboard.isSelected()) textFieldForChipboardHeaver.setEnabled(true);
-                else textFieldForChipboardHeaver.setEnabled(false);
-                if (lining.isSelected()) textFieldForLiningHeaver.setEnabled(true);
-                else textFieldForLiningHeaver.setEnabled(false);
-                if (plastic.isSelected()) textFieldForPlasticHeaver.setEnabled(true);
-                else textFieldForPlasticHeaver.setEnabled(false);
-                if (wood.isSelected()) textFieldForWoodHeaver.setEnabled(true);
-                else textFieldForWoodHeaver.setEnabled(false);
-            }
-        };
-
-        JPanel panelOuterForMaterial = new JPanel();
-        chipboard = new JCheckBox("ДСП");
-        chipboard.addActionListener(listenerForCheckBoxes);
-        lining = new JCheckBox("Вагонка");
-        lining.addActionListener(listenerForCheckBoxes);
-        plastic = new JCheckBox("Пластмаса");
-        plastic.addActionListener(listenerForCheckBoxes);
-        wood = new JCheckBox("Дерево");
-        wood.addActionListener(listenerForCheckBoxes);
-        panelOuterForMaterial.add(new JLabel("Горючі тверді матеріали"));
-        panelOuterForMaterial.add(chipboard);
-        panelOuterForMaterial.add(lining);
-        panelOuterForMaterial.add(plastic);
-        panelOuterForMaterial.add(wood);
-
-        panelOuter.add(panelOuterForMaterial);
-
-        JPanel panelOuterForHeaver = new JPanel();
-        textFieldForChipboardHeaver = new JTextField(5);
-        textFieldForChipboardHeaver.setEnabled(false);
-        textFieldForLiningHeaver = new JTextField(5);
-        textFieldForLiningHeaver.setEnabled(false);
-        textFieldForPlasticHeaver = new JTextField(5);
-        textFieldForPlasticHeaver.setEnabled(false);
-        textFieldForWoodHeaver = new JTextField(5);
-        textFieldForWoodHeaver.setEnabled(false);
-        panelOuterForHeaver.add(new JLabel("Пожежна нагрузка в кг"));
-        panelOuterForHeaver.add(textFieldForChipboardHeaver);
-        panelOuterForHeaver.add(textFieldForLiningHeaver);
-        panelOuterForHeaver.add(textFieldForPlasticHeaver);
-        panelOuterForHeaver.add(textFieldForWoodHeaver);
-
-        panelOuter.add(panelOuterForHeaver);
-
-        add(panelOuter, BorderLayout.NORTH);
+        createOuterPanel();
 
         textArea = new JTextArea(50, 50);
         JScrollPane scrollPane = new JScrollPane(textArea);
         add(scrollPane, BorderLayout.CENTER);
 
-        JPanel panelOuterForMenu = new JPanel();
-
-        JPanel panelMenu = new JPanel();
-        panelMenu.setLayout(new GridLayout(5, 2));
-
-        panelMenu.add(new JLabel("Задача №1 ", SwingConstants.RIGHT));
-        JButton buttonComputeTask1 = new JButton("Обчислити");
-        panelMenu.add(buttonComputeTask1);
-        TaskAction taskAction1 = new TaskAction("task1");
-        buttonComputeTask1.addActionListener(taskAction1);
-
-        panelMenu.add(new JLabel("Задача №2 ", SwingConstants.RIGHT));
-        JButton buttonComputeTask2 = new JButton("Обчислити");
-        panelMenu.add(buttonComputeTask2);
-        TaskAction taskAction2 = new TaskAction("task2");
-        buttonComputeTask2.addActionListener(taskAction2);
-
-        panelMenu.add(new JLabel("Задача №3 ", SwingConstants.RIGHT));
-        JButton buttonComputeTask3 = new JButton("Обчислити");
-        panelMenu.add(buttonComputeTask3);
-        TaskAction taskAction3 = new TaskAction("task3");
-        buttonComputeTask3.addActionListener(taskAction3);
-
-        panelMenu.add(new JLabel("Задача №4 ", SwingConstants.RIGHT));
-        JButton buttonComputeTask4 = new JButton("Обчислити");
-        panelMenu.add(buttonComputeTask4);
-        TaskAction taskAction4 = new TaskAction("task4");
-        buttonComputeTask4.addActionListener(taskAction4);
-
-
-        panelMenu.add(new JLabel("Задача №5 ", SwingConstants.RIGHT));
-        JButton buttonComputeTask5 = new JButton("Обчислити");
-        panelMenu.add(buttonComputeTask5);
-        buttonComputeTask5.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event)
-            {
-                FireInspectionData data = FireInspectionData.create()
-                        .setVolume(Double.parseDouble(textFieldForVolume.getText()))
-                        .setApertureData(new ApertureData(new Aperture[] {new Aperture(167.0, 2.89)}))
-                        .setHeight(Double.parseDouble(textFieldForHeight.getText()))
-                        .setMaterialData(new MaterialData(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)}));
-
-                FireStats stat = FireStats.computeFireStats(data);
-
-                Task6 task6 = new Task6(data);
-
-                textArea.append("Задача №5" + '\n');
-
-                if (stat.getFireKind() == FireKind.VENTILATION_REGULATED) {
-                    textArea.append("Пожежа, що регулюється вентиляцією" + '\n');
-                    textArea.append("Максимальна щільність теплового потоку з продуктами горіння, які йдуть через пройоми: " +
-                        task6.computeMaxDensityOfHeatFlow() + '\n'
-                    );
-                } else {
-                    textArea.append("Пожежа, що регулюється навантаженням" + '\n' + "Немає формул." + '\n');
-                }
-
-                textArea.append(new String(new char[120]).replace("\0", "-") + '\n');
-            }
-        });
-
-        panelOuterForMenu.add(panelMenu);
-        add(panelOuterForMenu, BorderLayout.SOUTH);
+        createMenuPanel();
     }
 
     private class TaskAction implements ActionListener {
@@ -185,7 +60,7 @@ public class FireFrame extends JFrame {
 
             FireInspectionData data = FireInspectionData.create()
                     .setVolume(Double.parseDouble(textFieldForVolume.getText()))
-                    .setApertureData(new ApertureData(new Aperture[] {new Aperture(167.0, 2.89)}))
+                    .setApertureData(new ApertureData(new Aperture[]{new Aperture(167.0, 2.89)}))
                     .setHeight(Double.parseDouble(textFieldForHeight.getText()))
                     .setMaterialData(new MaterialData(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)}));
 
@@ -240,9 +115,94 @@ public class FireFrame extends JFrame {
             textArea.append(commentToResult1 + result1 + '\n'
                     + commentToResult2 + result2 + "\n");
             textArea.append((task.equals("task4")) ?
-                    commentToResult1Auxiliary  + result1Auxiliary + '\n' + commentToResult2Auxiliary +  result2Auxiliary + '\n' : "");
+                    commentToResult1Auxiliary + result1Auxiliary + '\n' + commentToResult2Auxiliary + result2Auxiliary + '\n' : "");
             textArea.append(new String(new char[120]).replace("\0", "-") + '\n');
         }
     }
+
+    private void createOuterPanel() {
+        JPanel panelOuter = new JPanel();
+        panelOuter.setLayout(new GridLayout(3, 1));
+        JPanel panelData = new JPanel();
+        panelData.setLayout(new GridLayout(2, 2));
+
+        textFieldForVolume = new JTextField(5);
+        addTextFieldToPanel(textFieldForVolume, "V: ", panelData);
+        textFieldForHeight = new JTextField(5);
+        addTextFieldToPanel(textFieldForHeight, "h: ", panelData);
+
+        JPanel panelOuterForData = new JPanel();
+        panelOuterForData.add(panelData);
+        panelOuter.add(panelOuterForData);
+
+        // TODO: 07-Jul-16 compact or change format
+        JPanel panelOuterForMaterial = new JPanel();
+        panelOuterForMaterial.add(new JLabel("Горючі тверді матеріали"));
+        for (MaterialCheckboxContainer container : materialCheckboxContainers) {
+            panelOuterForMaterial.add(container.getCheckBox());
+        }
+        panelOuter.add(panelOuterForMaterial);
+
+        JPanel panelOuterForHeaver = new JPanel();
+        panelOuterForHeaver.add(new JLabel("Пожежна нагрузка в кг"));
+        for (MaterialCheckboxContainer container : materialCheckboxContainers) {
+            panelOuterForHeaver.add(container.getTextField());
+        }
+        panelOuter.add(panelOuterForHeaver);
+        add(panelOuter, BorderLayout.NORTH);
+    }
+
+    private void addTextFieldToPanel(JTextField textField, String text, JPanel panel) {
+        panel.add(new JLabel(text, SwingConstants.RIGHT));
+        panel.add(textField);
+    }
+
+    private void addButtonToPanel(JPanel panel, String labelText, String buttonText, ActionListener listener) {
+        panel.add(new JLabel(labelText, SwingConstants.RIGHT));
+        JButton buttonComputeTask1 = new JButton(buttonText);
+        panel.add(buttonComputeTask1);
+        buttonComputeTask1.addActionListener(listener);
+    }
+
+    private void createMenuPanel() {
+        JPanel panelMenu = new JPanel();
+        panelMenu.setLayout(new GridLayout(5, 2));
+
+        addButtonToPanel(panelMenu, "Задача №1 ", "Обчислити", new TaskAction("task1"));
+        addButtonToPanel(panelMenu, "Задача №2 ", "Обчислити", new TaskAction("task2"));
+        addButtonToPanel(panelMenu, "Задача №3 ", "Обчислити", new TaskAction("task3"));
+        addButtonToPanel(panelMenu, "Задача №4 ", "Обчислити", new TaskAction("task4"));
+        addButtonToPanel(panelMenu, "Задача №5 ", "Обчислити", this::task5Lambda);
+
+        JPanel panelOuterForMenu = new JPanel();
+        panelOuterForMenu.add(panelMenu);
+        add(panelOuterForMenu, BorderLayout.SOUTH);
+    }
+    // TODO: 07-Jul-16 replace
+    private void task5Lambda(ActionEvent event) {
+        FireInspectionData data = FireInspectionData.create()
+                .setVolume(Double.parseDouble(textFieldForVolume.getText()))
+                .setApertureData(new ApertureData(new Aperture[]{new Aperture(167.0, 2.89)}))
+                .setHeight(Double.parseDouble(textFieldForHeight.getText()))
+                .setMaterialData(new MaterialData(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)}));
+
+        FireStats stat = FireStats.computeFireStats(data);
+
+        Task6 task6 = new Task6(data);
+
+        textArea.append("Задача №5" + '\n');
+
+        if (stat.getFireKind() == FireKind.VENTILATION_REGULATED) {
+            textArea.append("Пожежа, що регулюється вентиляцією" + '\n');
+            textArea.append("Максимальна щільність теплового потоку з продуктами горіння, які йдуть через пройоми: " +
+                    task6.computeMaxDensityOfHeatFlow() + '\n'
+            );
+        } else {
+            textArea.append("Пожежа, що регулюється навантаженням" + '\n' + "Немає формул." + '\n');
+        }
+
+        textArea.append(new String(new char[120]).replace("\0", "-") + '\n');
+    }
+
 }
 

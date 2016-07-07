@@ -25,7 +25,6 @@ public class Task2 {
                 double fireLoad = sum(data.getMaterialData().getSolidMaterialsLoads()) / data.getFloorArea();
                 result = 940 * exp(0.0047 * (fireLoad - 30));
             }
-            // FIXME: 02-Jul-16 if not in 0.15 <= t <= 1.22
         }
 
         return result;
