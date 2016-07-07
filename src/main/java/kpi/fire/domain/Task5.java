@@ -2,7 +2,7 @@ package kpi.fire.domain;
 
 import static java.lang.Math.*;
 
-public class Task5 {
+public class Task5 implements ReportableTask{
 
     private FireStats fireStats;
     private FireInspectionData data;
@@ -58,5 +58,21 @@ public class Task5 {
 
     public double computeTimeAchievementMaxDensityForCoverageConstruction() {
         return 26 - 7.2 * pow(fireStats.getFireLoad(), 5.0) * exp(-1.6 * fireStats.getFireLoad());
+    }
+
+    @Override
+    public String reportTask(String description) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(description).append(System.lineSeparator())
+                .append(fireStats.getFireKind()).append(System.lineSeparator())
+                .append("Максимальна усереднина щільність ефективного потоку в конструкції стін: ")
+                .append(computeMaxDensityForWallConstruction()).append(System.lineSeparator())
+                .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції стін: ")
+                .append(computeTimeAchievementMaxDensityForWallConstruction()).append(System.lineSeparator())
+                .append("Максимальна усереднина щільність ефективного потоку в конструкції покриття: ")
+                .append(computeMaxDensityForCoverageConstruction()).append(System.lineSeparator())
+                .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції покриття: ")
+                .append(computeTimeAchievementMaxDensityForCoverageConstruction()).append(System.lineSeparator());
+        return builder.toString();
     }
 }

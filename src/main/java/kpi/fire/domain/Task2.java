@@ -1,19 +1,22 @@
 package kpi.fire.domain;
 
-import static java.lang.Math.*;
+import static java.lang.Math.exp;
+import static java.lang.Math.pow;
 import static kpi.fire.util.MathUtils.sum;
 
-public class Task2 {
+public class Task2 implements ReportableTask {
 
     private FireInspectionData data;
     private FireStats fireStats;
+    private double initialVolumeAverageTemperature;
 
-    public Task2(FireInspectionData data, FireStats fireStats) {
+    public Task2(FireInspectionData data, FireStats fireStats, double initialVolumeAverageTemperature) {
         this.data = data;
         this.fireStats = fireStats;
+        this.initialVolumeAverageTemperature = initialVolumeAverageTemperature;
     }
 
-    public double computeMaxVolumeAverageTemperature(double initialVolumeAverageTemperature) {
+    public double computeMaxVolumeAverageTemperature() {
         double result = 0.0;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
@@ -42,4 +45,15 @@ public class Task2 {
         return result;
     }
 
+    @Override
+    public String reportTask(String description) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(description).append(System.lineSeparator())
+                .append(fireStats.getFireKind()).append(System.lineSeparator())
+                .append("Максимальна середньооб'ємна температура: ")
+                .append(computeMaxVolumeAverageTemperature()).append(System.lineSeparator())
+                .append("Час досягнення максимального значення середньооб'ємної температури: ")
+                .append(computeMaxTemperatureTime()).append(System.lineSeparator());
+        return builder.toString();
+    }
 }

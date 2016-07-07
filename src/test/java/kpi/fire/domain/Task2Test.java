@@ -19,13 +19,13 @@ public class Task2Test {
                 .setHeight(6.0)
                 .setMaterialData(new MaterialData(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)}));
         stats = FireStats.computeFireStats(data);
-        task2 = new Task2(data, stats);
+        task2 = new Task2(data, stats, 293.0);
     }
 
     @Test
     public void compute() throws Exception {
         assertEquals(0.4, task2.computeMaxTemperatureTime(), 0.1);
-        assertEquals(897, task2.computeMaxVolumeAverageTemperature(293.0), 1.0);
+        assertEquals(897, task2.computeMaxVolumeAverageTemperature(), 1.0);
     }
 
 }

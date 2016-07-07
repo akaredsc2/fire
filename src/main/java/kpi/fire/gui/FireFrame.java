@@ -47,17 +47,6 @@ public class FireFrame extends JFrame {
             double initialTemperature = 293.0; // check it later
             double initialTemperature2 = -1.0; // for Tw0
 
-            String taskDescription = "";
-            double result1 = 0.0;
-            double result2 = 0.0;
-            String commentToResult1 = "";
-            String commentToResult2 = "";
-
-            double result1Auxiliary = 0.0;
-            double result2Auxiliary = 0.0;
-            String commentToResult1Auxiliary = "";
-            String commentToResult2Auxiliary = "";
-
             FireInspectionData data = FireInspectionData.create()
                     .setVolume(Double.parseDouble(textFieldForVolume.getText()))
                     .setApertureData(new ApertureData(new Aperture[]{new Aperture(167.0, 2.89)}))
@@ -66,56 +55,20 @@ public class FireFrame extends JFrame {
 
             FireStats stat = FireStats.computeFireStats(data);
 
-            if (task.equals("task1")) {
-                Task2 task2 = new Task2(data, stat);
-                taskDescription = "Задача №1";
-
-                result1 = task2.computeMaxVolumeAverageTemperature(initialTemperature);
-                commentToResult1 = "Максимальна середньооб'ємна температура: ";
-
-                result2 = task2.computeMaxTemperatureTime();
-                commentToResult2 = "Час досягнення максимального значення середньооб'ємної температури: ";
-            } else if (task.equals("task2")) {
-                Task3 task3 = new Task3(data, stat);
-                taskDescription = "Задача №2";
-
-                result1 = task3.computeMaxAverageOverlappingAreaTemperature(initialTemperature2);
-                commentToResult1 = "Максимальна усереднина температура поверхні перекриття: ";
-
-                result2 = task3.computeMaxAverageTemperatureTime();
-                commentToResult2 = "Час досягнення максильного значення усередньої температури поверхні перекриття: ";
+            ReportableTask reportableTask;
+            if (task.equals("task2")) {
+                reportableTask = new Task2(data, stat, initialTemperature);
             } else if (task.equals("task3")) {
-                Task4 task4 = new Task4(stat, data);
-                taskDescription = "Задача №3";
-
-                result1 = task4.computeMaxTemperature();
-                commentToResult1 = "Максимальна усереднина температура поверхні стін: ";
-
-                result2 = task4.computeTimeAchievementMaxTemperature();
-                commentToResult2 = "Час досягнення максильного значення усередненої температури поверхні стін: ";
-            } else {   // task == "task4"
-                Task5 task5 = new Task5(stat, data);
-                taskDescription = "Задача №4";
-
-                result1 = task5.computeMaxDensityForWallConstruction();
-                commentToResult1 = "Максимальна усереднина щільність ефективного потоку в конструкції стін: ";
-                result1Auxiliary = task5.computeMaxDensityForCoverageConstruction();
-                commentToResult1Auxiliary = "Максимальна усереднина щільність ефективного потоку в конструкції покриття: ";
-
-                result2 = task5.computeTimeAchievementMaxDensityForWallConstruction();
-                commentToResult2 = "Час досягнення максимальної усередненої щільності ефективного потоку в конструкції стін: ";
-                result2Auxiliary = task5.computeTimeAchievementMaxDensityForCoverageConstruction();
-                commentToResult2Auxiliary = "Час досягнення максимальної усередненої щільності ефективного потоку в конструкції покриття: ";
+                reportableTask = new Task3(data, stat, initialTemperature2);
+            } else if (task.equals("task4")) {
+                reportableTask = new Task4(stat, data);
+            } else if (task.equals("task5")) {
+                reportableTask = new Task5(stat, data);
+            } else {
+                reportableTask = new Task6(data);
             }
 
-            textArea.append(taskDescription + '\n');
-            textArea.append((stat.getFireKind() == FireKind.LOAD_REGULATED) ?
-                    "Пожежа, що регулюється навантаженням." :
-                    "Пожежа, що регулюється вентиляцією" + '\n');
-            textArea.append(commentToResult1 + result1 + '\n'
-                    + commentToResult2 + result2 + "\n");
-            textArea.append((task.equals("task4")) ?
-                    commentToResult1Auxiliary + result1Auxiliary + '\n' + commentToResult2Auxiliary + result2Auxiliary + '\n' : "");
+            textArea.append(reportableTask.reportTask(task));
             textArea.append(new String(new char[120]).replace("\0", "-") + '\n');
         }
     }
@@ -168,40 +121,15 @@ public class FireFrame extends JFrame {
         JPanel panelMenu = new JPanel();
         panelMenu.setLayout(new GridLayout(5, 2));
 
-        addButtonToPanel(panelMenu, "Задача №1 ", "Обчислити", new TaskAction("task1"));
         addButtonToPanel(panelMenu, "Задача №2 ", "Обчислити", new TaskAction("task2"));
         addButtonToPanel(panelMenu, "Задача №3 ", "Обчислити", new TaskAction("task3"));
         addButtonToPanel(panelMenu, "Задача №4 ", "Обчислити", new TaskAction("task4"));
-        addButtonToPanel(panelMenu, "Задача №5 ", "Обчислити", this::task5Lambda);
+        addButtonToPanel(panelMenu, "Задача №5 ", "Обчислити", new TaskAction("task5"));
+        addButtonToPanel(panelMenu, "Задача №6 ", "Обчислити", new TaskAction("task6"));
 
         JPanel panelOuterForMenu = new JPanel();
         panelOuterForMenu.add(panelMenu);
         add(panelOuterForMenu, BorderLayout.SOUTH);
-    }
-    // TODO: 07-Jul-16 replace
-    private void task5Lambda(ActionEvent event) {
-        FireInspectionData data = FireInspectionData.create()
-                .setVolume(Double.parseDouble(textFieldForVolume.getText()))
-                .setApertureData(new ApertureData(new Aperture[]{new Aperture(167.0, 2.89)}))
-                .setHeight(Double.parseDouble(textFieldForHeight.getText()))
-                .setMaterialData(new MaterialData(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)}));
-
-        FireStats stat = FireStats.computeFireStats(data);
-
-        Task6 task6 = new Task6(data);
-
-        textArea.append("Задача №5" + '\n');
-
-        if (stat.getFireKind() == FireKind.VENTILATION_REGULATED) {
-            textArea.append("Пожежа, що регулюється вентиляцією" + '\n');
-            textArea.append("Максимальна щільність теплового потоку з продуктами горіння, які йдуть через пройоми: " +
-                    task6.computeMaxDensityOfHeatFlow() + '\n'
-            );
-        } else {
-            textArea.append("Пожежа, що регулюється навантаженням" + '\n' + "Немає формул." + '\n');
-        }
-
-        textArea.append(new String(new char[120]).replace("\0", "-") + '\n');
     }
 
 }
