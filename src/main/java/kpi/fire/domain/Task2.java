@@ -8,19 +8,17 @@ public class Task2 implements ReportableTask {
 
     private FireInspectionData data;
     private FireStats fireStats;
-    private double initialVolumeAverageTemperature;
 
-    public Task2(FireInspectionData data, FireStats fireStats, double initialVolumeAverageTemperature) {
+    public Task2(FireInspectionData data, FireStats fireStats) {
         this.data = data;
         this.fireStats = fireStats;
-        this.initialVolumeAverageTemperature = initialVolumeAverageTemperature;
     }
 
     public double computeMaxVolumeAverageTemperature() {
         double result = 0.0;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
-            result = initialVolumeAverageTemperature + 224 * pow(fireStats.getFireLoad(), 0.528);
+            result = data.getInitialVolumeAverageTemperature() + 224 * pow(fireStats.getFireLoad(), 0.528);
         } else {
             double fireDuration = data.computeFireDuration();
 

@@ -12,12 +12,12 @@ public class FireInspectionData {
     private MaterialData materialData;
     private double height;
     private double lowestWoodBurnHeat;
+    private  double initialVolumeAverageTemperature;
+    private  double initialAverageOverlappingAreaTemperature;
 
     private FireInspectionData() {
-        this.volume = 0;
         this.apertureData = new ApertureData();
         this.materialData = new MaterialData();
-        this.height = 0;
     }
 
     public double getVolume() {
@@ -49,6 +49,14 @@ public class FireInspectionData {
         return lowestWoodBurnHeat;
     }
 
+    public double getInitialVolumeAverageTemperature() {
+        return initialVolumeAverageTemperature;
+    }
+
+    public double getInitialAverageOverlappingAreaTemperature() {
+        return initialAverageOverlappingAreaTemperature;
+    }
+
     public FireInspectionData setVolume(double volume) {
         this.volume = volume;
         return this;
@@ -71,6 +79,16 @@ public class FireInspectionData {
 
     public FireInspectionData setLowestWoodBurnHeat(double lowestWoodBurnHeat) {
         this.lowestWoodBurnHeat = lowestWoodBurnHeat;
+        return this;
+    }
+
+    public FireInspectionData setInitialVolumeAverageTemperature(double initialVolumeAverageTemperature) {
+        this.initialVolumeAverageTemperature = initialVolumeAverageTemperature;
+        return this;
+    }
+
+    public FireInspectionData setInitialAverageOverlappingAreaTemperature(double initialAverageOverlappingAreaTemperature) {
+        this.initialAverageOverlappingAreaTemperature = initialAverageOverlappingAreaTemperature;
         return this;
     }
 

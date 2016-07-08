@@ -7,7 +7,7 @@ public class Task5 implements ReportableTask{
     private FireStats fireStats;
     private FireInspectionData data;
 
-    public Task5(FireStats fileStats, FireInspectionData data) {
+    public Task5(FireInspectionData data, FireStats fileStats) {
         this.fireStats = fileStats;
         this.data = data;
     }

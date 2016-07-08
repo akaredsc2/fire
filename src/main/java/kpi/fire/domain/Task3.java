@@ -8,19 +8,17 @@ public class Task3 implements ReportableTask {
 
     private FireInspectionData data;
     private FireStats fireStats;
-    private double initialAverageOverlappingAreaTemperature;
 
-    public Task3(FireInspectionData data, FireStats fireStats, double initialAverageOverlappingAreaTemperature) {
+    public Task3(FireInspectionData data, FireStats fireStats) {
         this.data = data;
         this.fireStats = fireStats;
-        this.initialAverageOverlappingAreaTemperature = initialAverageOverlappingAreaTemperature;
     }
 
     public double computeMaxAverageOverlappingAreaTemperature() {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
-            result = 130 * pow(fireStats.getFireLoad(), 0.64) + this.initialAverageOverlappingAreaTemperature;
+            result = 130 * pow(fireStats.getFireLoad(), 0.64) + data.getInitialAverageOverlappingAreaTemperature();
         } else {
             double fireLoad = sum(data.getMaterialData().getSolidMaterialsLoads()) / data.getFloorArea();
             result = 915 * exp(5 * pow(10, -3) * (fireLoad - 30));

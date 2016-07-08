@@ -6,15 +6,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
+import java.util.*;
+import java.util.List;
 
 public class FireFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 640;
     private static final int DEFAULT_HEIGHT = 480;
-    private JTextField textFieldForVolume;
-    private JTextField textFieldForHeight;
     private final JTextArea textArea;
-    private LinkedList<MaterialCheckboxContainer> materialCheckboxContainers;
+    private List<MaterialCheckboxContainer> materialCheckboxContainers;
+    private Map<String, JTextField> textFieldMap;
 
     public FireFrame() {
         materialCheckboxContainers = new LinkedList<>();
@@ -22,6 +22,12 @@ public class FireFrame extends JFrame {
         materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Вагонка", 0.0, 1.0, 1.0, 1.0)));
         materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластмаса", 0.0, 1.0, 41.87, 1.0)));
         materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Дерево", 0.0, 4.2, 13.8, 2.4)));
+
+        textFieldMap = new TreeMap<>();
+        textFieldMap.put("T_W_0", new JTextField(5));
+        textFieldMap.put("T_0", new JTextField(5));
+        textFieldMap.put("height", new JTextField(5));
+        textFieldMap.put("volume", new JTextField(5));
 
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
@@ -48,36 +54,40 @@ public class FireFrame extends JFrame {
                     .map(FireFrame.this::processInput)
                     .toArray(Material[]::new);
 
-            FireInspectionData data = FireInspectionData.create()
-                    .setVolume(Double.parseDouble(textFieldForVolume.getText()))
-                    .setApertureData(new ApertureData(new Aperture[]{new Aperture(167.0, 2.89)}))
-                    .setHeight(Double.parseDouble(textFieldForHeight.getText()))
-                    .setMaterialData(new MaterialData(materials))
-                    .setLowestWoodBurnHeat(13.8);
+            if (materials.length != 0) {
+                FireInspectionData data = FireInspectionData.create()
+                        .setVolume(Double.parseDouble(textFieldMap.get("volume").getText()))
+                        .setApertureData(new ApertureData(new Aperture[]{new Aperture(167.0, 2.89)}))
+                        .setHeight(Double.parseDouble(textFieldMap.get("height").getText()))
+                        .setMaterialData(new MaterialData(materials))
+                        .setLowestWoodBurnHeat(13.8)
+                        .setInitialVolumeAverageTemperature(Double.parseDouble(textFieldMap.get("T_0").getText()))
+                        .setInitialAverageOverlappingAreaTemperature(
+                                Double.parseDouble(textFieldMap.get("T_W_0").getText()));
 
-            FireStats stat = FireStats.computeFireStats(data);
+                FireStats stat = FireStats.computeFireStats(data);
 
-            ReportableTask reportableTask;
-            if (taskName.equals("task2")) {
-                double initialTemperature = 293.0;
-                reportableTask = new Task2(data, stat, initialTemperature);
-            } else if (taskName.equals("task3")) {
-                double initialTemperature = -1.0;
-                reportableTask = new Task3(data, stat, initialTemperature);
-            } else if (taskName.equals("task4")) {
-                double initialTemperature = -1.0;
-                reportableTask = new Task4(stat, data, initialTemperature);
-            } else if (taskName.equals("task5")) {
-                reportableTask = new Task5(stat, data);
+                ReportableTask reportableTask;
+                if (taskName.equals("task2")) {
+                    reportableTask = new Task2(data, stat);
+                } else if (taskName.equals("task3")) {
+                    reportableTask = new Task3(data, stat);
+                } else if (taskName.equals("task4")) {
+                    reportableTask = new Task4(data, stat);
+                } else if (taskName.equals("task5")) {
+                    reportableTask = new Task5(data, stat);
+                } else {
+                    reportableTask = new Task6(data);
+                }
+
+                textArea.append(reportableTask.reportTask(taskName));
+                textArea.append(new String(new char[120]).replace("\0", "-") + '\n');
+
+                for (MaterialCheckboxContainer container : materialCheckboxContainers) {
+                    container.getMaterial().setFireLoad(0.0);
+                }
             } else {
-                reportableTask = new Task6(data);
-            }
-
-            textArea.append(reportableTask.reportTask(taskName));
-            textArea.append(new String(new char[120]).replace("\0", "-") + '\n');
-
-            for (MaterialCheckboxContainer container : materialCheckboxContainers) {
-                container.getMaterial().setFireLoad(0.0);
+                textArea.append("Введених данних не достатньо для обчислень" + System.lineSeparator());
             }
         }
     }
@@ -86,12 +96,11 @@ public class FireFrame extends JFrame {
         JPanel panelOuter = new JPanel();
         panelOuter.setLayout(new GridLayout(3, 1));
         JPanel panelData = new JPanel();
-        panelData.setLayout(new GridLayout(2, 2));
+        panelData.setLayout(new GridLayout(2, 4));
 
-        textFieldForVolume = new JTextField(5);
-        addTextFieldToPanel(textFieldForVolume, "V: ", panelData);
-        textFieldForHeight = new JTextField(5);
-        addTextFieldToPanel(textFieldForHeight, "h: ", panelData);
+        for (String key: textFieldMap.keySet()) {
+            addTextFieldToPanel(textFieldMap.get(key), key, panelData);
+        }
 
         JPanel panelOuterForData = new JPanel();
         panelOuterForData.add(panelData);
@@ -143,11 +152,14 @@ public class FireFrame extends JFrame {
     private Material processInput(MaterialCheckboxContainer container) {
         Material material = container.getMaterial();
         String input = container.getTextField().getText();
-        double parsedInput;
-        if (input.matches("[0-9]+(\\.[0-9][0-9]?)?") && (parsedInput = Double.parseDouble(input)) > 0) {
-            material.setFireLoad(parsedInput);
+        if (isCorrectInput(input)) {
+            material.setFireLoad(Double.parseDouble(input));
         }
         return material;
+    }
+
+    private boolean isCorrectInput(String input) {
+        return input.matches("[0-9]+(\\.[0-9][0-9]?)?") && (Double.parseDouble(input) > 0);
     }
 
 }

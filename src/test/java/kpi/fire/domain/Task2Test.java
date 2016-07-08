@@ -17,9 +17,11 @@ public class Task2Test {
                 .setVolume(14040.0)
                 .setApertureData(new ApertureData(new Aperture[] {new Aperture(167.0, 2.89)}))
                 .setHeight(6.0)
-                .setMaterialData(new MaterialData(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)}));
+                .setMaterialData(new MaterialData(new Material[]{new Material("", 46800.0, 4.2, 13.8, 2.4)}))
+                .setInitialVolumeAverageTemperature(293.0)
+                .setLowestWoodBurnHeat(13.8);
         stats = FireStats.computeFireStats(data);
-        task2 = new Task2(data, stats, 293.0);
+        task2 = new Task2(data, stats);
     }
 
     @Test

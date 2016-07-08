@@ -5,7 +5,7 @@ public enum FireKind {
     VENTILATION_REGULATED;
 
     public String toUkrString() {
-        return this == LOAD_REGULATED ? "Пожежа, що регулюэться навантаженням" : "Пожежа, що регулюэться вентиляцыэю";
+        return this == LOAD_REGULATED ? "Пожежа, що регулюється навантаженням" : "Пожежа, що регулюється вентиляцією";
     }
 
 }
