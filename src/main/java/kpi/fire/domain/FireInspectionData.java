@@ -6,10 +6,12 @@ import static kpi.fire.util.MathUtils.sum;
 
 public class FireInspectionData {
 
+
     private double volume;
     private ApertureData apertureData;
     private MaterialData materialData;
     private double height;
+    private double lowestWoodBurnHeat;
 
     private FireInspectionData() {
         this.volume = 0;
@@ -43,6 +45,10 @@ public class FireInspectionData {
         return volume / height;
     }
 
+    public double getLowestWoodBurnHeat() {
+        return lowestWoodBurnHeat;
+    }
+
     public FireInspectionData setVolume(double volume) {
         this.volume = volume;
         return this;
@@ -60,6 +66,11 @@ public class FireInspectionData {
 
     public FireInspectionData setHeight(double height) {
         this.height = height;
+        return this;
+    }
+
+    public FireInspectionData setLowestWoodBurnHeat(double lowestWoodBurnHeat) {
+        this.lowestWoodBurnHeat = lowestWoodBurnHeat;
         return this;
     }
 

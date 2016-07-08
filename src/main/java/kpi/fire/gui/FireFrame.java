@@ -52,7 +52,8 @@ public class FireFrame extends JFrame {
                     .setVolume(Double.parseDouble(textFieldForVolume.getText()))
                     .setApertureData(new ApertureData(new Aperture[]{new Aperture(167.0, 2.89)}))
                     .setHeight(Double.parseDouble(textFieldForHeight.getText()))
-                    .setMaterialData(new MaterialData(materials));
+                    .setMaterialData(new MaterialData(materials))
+                    .setLowestWoodBurnHeat(13.8);
 
             FireStats stat = FireStats.computeFireStats(data);
 

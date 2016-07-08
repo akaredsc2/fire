@@ -64,7 +64,7 @@ public class FireStats {
 
     private static double computeFireLoad(FireInspectionData data) {
         return dotProduct(data.getMaterialData().getSolidMaterialsLoads(), data.getMaterialData().getMinBurnTemperatures())
-                / ((6 * pow(data.getVolume(), 0.667) - sum(data.getApertureData().getApertureSpaces())) * 13.8);
+                / ((6 * pow(data.getVolume(), 0.667) - sum(data.getApertureData().getApertureSpaces())) * data.getLowestWoodBurnHeat());
     }
 
 }
