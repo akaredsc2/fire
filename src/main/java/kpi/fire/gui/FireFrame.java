@@ -6,15 +6,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class FireFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 640;
-    private static final int DEFAULT_HEIGHT = 480;
+    private static final int DEFAULT_HEIGHT = 640;
     private final JTextArea textArea;
     private List<MaterialCheckboxContainer> materialCheckboxContainers;
     private Map<String, JTextField> textFieldMap;
+    private List<ApertureComponent> apertureComponentList;
 
     public FireFrame() {
         materialCheckboxContainers = new LinkedList<>();
@@ -28,6 +31,13 @@ public class FireFrame extends JFrame {
         textFieldMap.put("T_0", new JTextField(5));
         textFieldMap.put("height", new JTextField(5));
         textFieldMap.put("volume", new JTextField(5));
+
+        apertureComponentList = new LinkedList<>();
+        apertureComponentList.add(new ApertureComponent());
+        apertureComponentList.add(new ApertureComponent());
+        apertureComponentList.add(new ApertureComponent());
+        apertureComponentList.add(new ApertureComponent());
+        apertureComponentList.add(new ApertureComponent());
 
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
@@ -54,10 +64,16 @@ public class FireFrame extends JFrame {
                     .map(FireFrame.this::processInput)
                     .toArray(Material[]::new);
 
+            apertureComponentList.stream().forEach(ApertureComponent::update);
+            Aperture[] apertures = apertureComponentList.stream()
+                    .filter(x -> (x.getAperture().getArea() > 0) && (x.getAperture().getHeight() > 0))
+                    .map(ApertureComponent::getAperture)
+                    .toArray(Aperture[]::new);
+
             if (materials.length != 0) {
                 FireInspectionData data = FireInspectionData.create()
                         .setVolume(Double.parseDouble(textFieldMap.get("volume").getText()))
-                        .setApertureData(new ApertureData(new Aperture[]{new Aperture(167.0, 2.89)}))
+                        .setApertureData(new ApertureData(apertures))
                         .setHeight(Double.parseDouble(textFieldMap.get("height").getText()))
                         .setMaterialData(new MaterialData(materials))
                         .setLowestWoodBurnHeat(13.8)
@@ -94,11 +110,12 @@ public class FireFrame extends JFrame {
 
     private void createOuterPanel() {
         JPanel panelOuter = new JPanel();
-        panelOuter.setLayout(new GridLayout(3, 1));
-        JPanel panelData = new JPanel();
+        panelOuter.setLayout(new BoxLayout(panelOuter, BoxLayout.PAGE_AXIS));
+
+        JPanel panelData = new JPanel(new GridLayout(2, 4));
         panelData.setLayout(new GridLayout(2, 4));
 
-        for (String key: textFieldMap.keySet()) {
+        for (String key : textFieldMap.keySet()) {
             addTextFieldToPanel(textFieldMap.get(key), key, panelData);
         }
 
@@ -106,6 +123,7 @@ public class FireFrame extends JFrame {
         panelOuterForData.add(panelData);
         panelOuter.add(panelOuterForData);
 
+        // TODO: 08-Jul-16 extract method
         JPanel panelOuterForMaterial = new JPanel();
         panelOuterForMaterial.add(new JLabel("Горючі тверді матеріали"));
         for (MaterialCheckboxContainer container : materialCheckboxContainers) {
@@ -119,6 +137,14 @@ public class FireFrame extends JFrame {
             panelOuterForHeaver.add(container.getTextField());
         }
         panelOuter.add(panelOuterForHeaver);
+
+        JPanel aperturePanel = new JPanel(new GridLayout(6, 1));
+        aperturePanel.add(new JLabel("Apertures"));
+        for (ApertureComponent component : apertureComponentList) {
+            component.addToPanel(aperturePanel);
+        }
+        panelOuter.add(aperturePanel);
+
         add(panelOuter, BorderLayout.NORTH);
     }
 
