@@ -51,7 +51,7 @@ public class Task4 implements ReportableTask{
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
         builder.append(description).append(System.lineSeparator())
-                .append(fireStats.getFireKind()).append(System.lineSeparator())
+                .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator())
                 .append("Максимальна усереднина температура поверхні стін: ")
                 .append(computeMaxTemperature()).append(System.lineSeparator())
                 .append("Час досягнення максильного значення усередненої температури поверхні стін: ")

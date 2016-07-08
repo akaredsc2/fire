@@ -64,7 +64,7 @@ public class Task5 implements ReportableTask{
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
         builder.append(description).append(System.lineSeparator())
-                .append(fireStats.getFireKind()).append(System.lineSeparator())
+                .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator())
                 .append("Максимальна усереднина щільність ефективного потоку в конструкції стін: ")
                 .append(computeMaxDensityForWallConstruction()).append(System.lineSeparator())
                 .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції стін: ")

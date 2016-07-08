@@ -49,7 +49,7 @@ public class Task2 implements ReportableTask {
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
         builder.append(description).append(System.lineSeparator())
-                .append(fireStats.getFireKind()).append(System.lineSeparator())
+                .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator())
                 .append("Максимальна середньооб'ємна температура: ")
                 .append(computeMaxVolumeAverageTemperature()).append(System.lineSeparator())
                 .append("Час досягнення максимального значення середньооб'ємної температури: ")

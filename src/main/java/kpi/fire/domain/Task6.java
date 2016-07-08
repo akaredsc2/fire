@@ -25,7 +25,7 @@ public class Task6 implements ReportableTask {
 
         FireKind fireKind = FireStats.computeFireStats(data).getFireKind();
         builder.append(description).append(System.lineSeparator())
-                .append(FireStats.computeFireStats(data).getFireKind()).append(System.lineSeparator());
+                .append(FireStats.computeFireStats(data).getFireKind().toUkrString()).append(System.lineSeparator());
         if (fireKind == FireKind.VENTILATION_REGULATED) {
             builder.append("Максимальна щільність теплового потоку з продуктами горіння, які йдуть через пройоми: ")
                     .append(computeMaxDensityOfHeatFlow()).append(System.lineSeparator());
