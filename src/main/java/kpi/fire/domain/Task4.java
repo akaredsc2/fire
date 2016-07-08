@@ -5,21 +5,21 @@ import static java.lang.Math.pow;
 
 public class Task4 implements ReportableTask{
 
-    private static final double TW0 = -1.0;
-
     private FireStats fireStats;
     private FireInspectionData data;
+    private double initialAverageOverlappingAreaTemperature;
 
-    public Task4(FireStats fileStats, FireInspectionData data) {
+    public Task4(FireStats fileStats, FireInspectionData data, double initialAverageOverlappingAreaTemperature) {
         this.fireStats = fileStats;
         this.data = data;
+        this.initialAverageOverlappingAreaTemperature = initialAverageOverlappingAreaTemperature;
     }
 
     public double computeMaxTemperature() {
         double result;
 
         if (fireStats.getFireKind() == FireKind.LOAD_REGULATED) {
-            result = TW0 + 115 * pow(fireStats.getFireLoad(), 0.68);
+            result = initialAverageOverlappingAreaTemperature + 115 * pow(fireStats.getFireLoad(), 0.68);
             return result;
         } else { // fireKing == FireKind.LOAD_REGULATED
             double durationFire = data.computeFireDuration();

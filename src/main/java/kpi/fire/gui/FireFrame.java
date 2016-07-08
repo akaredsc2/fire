@@ -65,7 +65,8 @@ public class FireFrame extends JFrame {
                 double initialTemperature = -1.0;
                 reportableTask = new Task3(data, stat, initialTemperature);
             } else if (taskName.equals("task4")) {
-                reportableTask = new Task4(stat, data);
+                double initialTemperature = -1.0;
+                reportableTask = new Task4(stat, data, initialTemperature);
             } else if (taskName.equals("task5")) {
                 reportableTask = new Task5(stat, data);
             } else {
