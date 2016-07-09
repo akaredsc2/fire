@@ -13,11 +13,11 @@ public class ApertureComponent implements GuiComponent {
 
     private Aperture aperture;
 
-    public ApertureComponent() {
+    public ApertureComponent(String textForArea, String textForHeight) {
         areaTextField = new JTextField(5);
-        areaLabel = new JLabel("Area");
+        areaLabel = new JLabel(textForArea);
         heightTextField = new JTextField(5);
-        heightLabel = new JLabel("Height");
+        heightLabel = new JLabel(textForHeight);
 
         aperture = new Aperture(0.0, 0.0);
     }
@@ -30,8 +30,8 @@ public class ApertureComponent implements GuiComponent {
     public void update() {
         String area = areaTextField.getText();
         String height = heightTextField.getText();
-        aperture = new Aperture("".equals(area) ? 0.0 : Double.parseDouble(area),
-                "".equals(height) ? 0.0 : Double.parseDouble(height));
+        aperture = new Aperture(FireFrame.isCorrectInput(area) ? Double.parseDouble(area) : -1.0,
+                FireFrame.isCorrectInput(height) ? Double.parseDouble(height) : -1.0);
     }
 
     @Override

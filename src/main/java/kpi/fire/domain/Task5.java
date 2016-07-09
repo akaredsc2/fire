@@ -1,5 +1,7 @@
 package kpi.fire.domain;
 
+import java.util.Formatter;
+
 import static java.lang.Math.*;
 
 public class Task5 implements ReportableTask{
@@ -63,16 +65,16 @@ public class Task5 implements ReportableTask{
     @Override
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
-        builder.append(description).append(System.lineSeparator())
+        builder.append(description + ":").append(System.lineSeparator())
                 .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator())
                 .append("Максимальна усереднина щільність ефективного потоку в конструкції стін: ")
-                .append(computeMaxDensityForWallConstruction()).append(System.lineSeparator())
+                .append(new Formatter().format("%.2f",computeMaxDensityForWallConstruction()) + " кВт/м2.").append(System.lineSeparator())
                 .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції стін: ")
-                .append(computeTimeAchievementMaxDensityForWallConstruction()).append(System.lineSeparator())
+                .append(new Formatter().format("%.2f",computeTimeAchievementMaxDensityForWallConstruction()) + " год.").append(System.lineSeparator())
                 .append("Максимальна усереднина щільність ефективного потоку в конструкції покриття: ")
-                .append(computeMaxDensityForCoverageConstruction()).append(System.lineSeparator())
+                .append(new Formatter().format("%.2f",computeMaxDensityForCoverageConstruction()) + " кВт/м2.").append(System.lineSeparator())
                 .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції покриття: ")
-                .append(computeTimeAchievementMaxDensityForCoverageConstruction()).append(System.lineSeparator());
+                .append(new Formatter().format("%.2f",computeTimeAchievementMaxDensityForCoverageConstruction()) + " год.").append(System.lineSeparator());
         return builder.toString();
     }
 }

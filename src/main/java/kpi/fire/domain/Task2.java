@@ -1,5 +1,7 @@
 package kpi.fire.domain;
 
+import java.util.Formatter;
+
 import static java.lang.Math.exp;
 import static java.lang.Math.pow;
 import static kpi.fire.util.MathUtils.sum;
@@ -46,12 +48,12 @@ public class Task2 implements ReportableTask {
     @Override
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
-        builder.append(description).append(System.lineSeparator())
+        builder.append(description + ":").append(System.lineSeparator())
                 .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator())
                 .append("Максимальна середньооб'ємна температура: ")
-                .append(computeMaxVolumeAverageTemperature()).append(System.lineSeparator())
+                .append(new Formatter().format("%.2f",computeMaxVolumeAverageTemperature()) + " K.").append(System.lineSeparator())
                 .append("Час досягнення максимального значення середньооб'ємної температури: ")
-                .append(computeMaxTemperatureTime()).append(System.lineSeparator());
+                .append(new Formatter().format("%.2f",computeMaxTemperatureTime()) + " год.").append(System.lineSeparator());
         return builder.toString();
     }
 }

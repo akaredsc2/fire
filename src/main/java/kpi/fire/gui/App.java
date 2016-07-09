@@ -9,7 +9,7 @@ public class App {
             public void run()
             {
                 JFrame frame = new FireFrame();
-                frame.setTitle("Fire");
+                frame.setTitle("Методи розрахунку температурного режиму пожежі в приміщеннях будівель різного призначення");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
             }

@@ -1,5 +1,7 @@
 package kpi.fire.domain;
 
+import java.util.Formatter;
+
 import static java.lang.Math.pow;
 import static kpi.fire.util.MathUtils.sum;
 
@@ -28,7 +30,7 @@ public class Task6 implements ReportableTask {
                 .append(FireStats.computeFireStats(data).getFireKind().toUkrString()).append(System.lineSeparator());
         if (fireKind == FireKind.VENTILATION_REGULATED) {
             builder.append("Максимальна щільність теплового потоку з продуктами горіння, які йдуть через пройоми: ")
-                    .append(computeMaxDensityOfHeatFlow()).append(System.lineSeparator());
+                    .append(new Formatter().format("%.2f",computeMaxDensityOfHeatFlow()) + " кВт/м2.").append(System.lineSeparator());
         } else {
             builder.append("У ГОСТ Р 12.3.047-98 відсутня інформація для даної ситуації");
         }
