@@ -10,8 +10,8 @@ import java.util.*;
 import java.util.List;
 
 public class FireFrame extends JFrame {
-    private static final int DEFAULT_WIDTH = 640;
-    private static final int DEFAULT_HEIGHT = 640;
+    private static final int DEFAULT_WIDTH = 768;
+    private static final int DEFAULT_HEIGHT = 768;
     private final JTextArea textArea;
     private List<MaterialCheckboxContainer> materialCheckboxContainers;
     private Map<String, JTextField> textFieldMap;
