@@ -6,8 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class FireFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 768;
@@ -25,9 +27,9 @@ public class FireFrame extends JFrame {
 
     public FireFrame() {
         materialCheckboxContainers = new LinkedList<>();
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("ДСП", 0.0, 1.0, 18.0, 1.0)));
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Вагонка", 0.0, 1.0, 1.0, 1.0)));
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластмаса", 0.0, 1.0, 41.87, 1.0)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("ДСП", 0.0, 4.4, 18.0, 14.0)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Вагонка", 0.0, 4.3, 13.8, 14.0)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластмаса", 0.0, 5.6, 41.87, 14.4)));
         materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Дерево", 0.0, 4.2, 13.8, 2.4)));
 
         textFieldMap = new TreeMap<>();
@@ -38,7 +40,7 @@ public class FireFrame extends JFrame {
 
         apertureComponentList = new LinkedList<>();
         for (int i = 0; i < 5; i++) {
-            apertureComponentList.add(new ApertureComponent((i+1) + ". Площа (м2)", "Висота (м)"));
+            apertureComponentList.add(new ApertureComponent((i + 1) + ". Площа (м2)", "Висота (м)"));
         }
 
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);

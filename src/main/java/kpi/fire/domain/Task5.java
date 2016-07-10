@@ -2,9 +2,10 @@ package kpi.fire.domain;
 
 import java.util.Formatter;
 
-import static java.lang.Math.*;
+import static java.lang.Math.exp;
+import static java.lang.Math.pow;
 
-public class Task5 implements ReportableTask{
+public class Task5 implements ReportableTask {
 
     private FireStats fireStats;
     private FireInspectionData data;
@@ -66,15 +67,21 @@ public class Task5 implements ReportableTask{
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
         builder.append(description + ":").append(System.lineSeparator())
-                .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator())
-                .append("Максимальна усереднина щільність ефективного потоку в конструкції стін: ")
-                .append(new Formatter().format("%.2f",computeMaxDensityForWallConstruction()) + " кВт/м2.").append(System.lineSeparator())
-                .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції стін: ")
-                .append(new Formatter().format("%.2f",computeTimeAchievementMaxDensityForWallConstruction()) + " год.").append(System.lineSeparator())
-                .append("Максимальна усереднина щільність ефективного потоку в конструкції покриття: ")
-                .append(new Formatter().format("%.2f",computeMaxDensityForCoverageConstruction()) + " кВт/м2.").append(System.lineSeparator())
-                .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції покриття: ")
-                .append(new Formatter().format("%.2f",computeTimeAchievementMaxDensityForCoverageConstruction()) + " год.").append(System.lineSeparator());
+                .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator());
+        if (data.computeFireDuration() < 0.15) {
+            builder.append("Характерна трівалість пожежі занадно мала");
+        } else if (data.computeFireDuration() > 1.22) {
+            builder.append("Характерна трівалість пожежі занадно велика");
+        } else {
+            builder.append("Максимальна усереднина щільність ефективного потоку в конструкції стін: ")
+                    .append(new Formatter().format("%.2f", computeMaxDensityForWallConstruction()) + " кВт/м2.").append(System.lineSeparator())
+                    .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції стін: ")
+                    .append(new Formatter().format("%.2f", computeTimeAchievementMaxDensityForWallConstruction()) + " год.").append(System.lineSeparator())
+                    .append("Максимальна усереднина щільність ефективного потоку в конструкції покриття: ")
+                    .append(new Formatter().format("%.2f", computeMaxDensityForCoverageConstruction()) + " кВт/м2.").append(System.lineSeparator())
+                    .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції покриття: ")
+                    .append(new Formatter().format("%.2f", computeTimeAchievementMaxDensityForCoverageConstruction()) + " год.").append(System.lineSeparator());
+        }
         return builder.toString();
     }
 }
