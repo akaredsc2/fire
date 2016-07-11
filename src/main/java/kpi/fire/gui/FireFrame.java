@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class FireFrame extends JFrame {
-    private static final int DEFAULT_WIDTH = 768;
-    private static final int DEFAULT_HEIGHT = 768;
+    private static final int DEFAULT_WIDTH = 1280;
+    private static final int DEFAULT_HEIGHT = 800;
     private final JTextArea textArea;
     private List<MaterialCheckboxContainer> materialCheckboxContainers;
     private Map<String, JTextField> textFieldMap;
