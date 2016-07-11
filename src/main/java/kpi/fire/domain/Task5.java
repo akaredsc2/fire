@@ -24,13 +24,13 @@ public class Task5 implements ReportableTask {
         } else { // fireKing == FireKind.LOAD_REGULATED
             double durationFire = data.computeFireDuration();
 
-            if (durationFire > 0.15 && durationFire < 0.8) {
+            durationFire = data.limitFireDuration(durationFire);
+
+            if (durationFire >= 0.15 && durationFire < 0.8) {
                 result = 43 - 75 * durationFire + 50 * pow(durationFire, 2.0);
                 return result;
-            } else if (durationFire >= 0.8 && durationFire <= 1.22) {
-                return 15.0;
             } else {
-                return -1.0; //what will be here
+                return 15.0;
             }
         }
     }
@@ -44,13 +44,13 @@ public class Task5 implements ReportableTask {
         } else { // fireKing == FireKind.LOAD_REGULATED
             double durationFire = data.computeFireDuration();
 
-            if (durationFire > 0.15 && durationFire < 0.8) {
+            durationFire = data.limitFireDuration(durationFire);
+
+            if (durationFire >= 0.15 && durationFire < 0.8) {
                 result = 65 - 138 * durationFire + 97 * pow(durationFire, 2.0);
                 return result;
-            } else if (durationFire >= 0.8 && durationFire <= 1.22) {
-                return 17.3;
             } else {
-                return -1.0; //what will be here
+                return 17.3;
             }
         }
     }
@@ -67,21 +67,16 @@ public class Task5 implements ReportableTask {
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
         builder.append(description + ":").append(System.lineSeparator())
-                .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator());
-        if (data.computeFireDuration() < 0.15) {
-            builder.append("Характерна трівалість пожежі занадно мала");
-        } else if (data.computeFireDuration() > 1.22) {
-            builder.append("Характерна трівалість пожежі занадно велика");
-        } else {
-            builder.append("Максимальна усереднина щільність ефективного потоку в конструкції стін: ")
-                    .append(new Formatter().format("%.2f", computeMaxDensityForWallConstruction()) + " кВт/м2.").append(System.lineSeparator())
-                    .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції стін: ")
-                    .append(new Formatter().format("%.2f", computeTimeAchievementMaxDensityForWallConstruction()) + " год.").append(System.lineSeparator())
-                    .append("Максимальна усереднина щільність ефективного потоку в конструкції покриття: ")
-                    .append(new Formatter().format("%.2f", computeMaxDensityForCoverageConstruction()) + " кВт/м2.").append(System.lineSeparator())
-                    .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції покриття: ")
-                    .append(new Formatter().format("%.2f", computeTimeAchievementMaxDensityForCoverageConstruction()) + " год.").append(System.lineSeparator());
-        }
+                .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator())
+                .append("Максимальна усереднина щільність ефективного потоку в конструкції стін: ")
+                .append(new Formatter().format("%.2f", computeMaxDensityForWallConstruction()) + " кВт/м2.").append(System.lineSeparator())
+                .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції стін: ")
+                .append(new Formatter().format("%.2f", computeTimeAchievementMaxDensityForWallConstruction()) + " год.").append(System.lineSeparator())
+                .append("Максимальна усереднина щільність ефективного потоку в конструкції покриття: ")
+                .append(new Formatter().format("%.2f", computeMaxDensityForCoverageConstruction()) + " кВт/м2.").append(System.lineSeparator())
+                .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції покриття: ")
+                .append(new Formatter().format("%.2f", computeTimeAchievementMaxDensityForCoverageConstruction()) + " год.").append(System.lineSeparator());
         return builder.toString();
     }
+
 }

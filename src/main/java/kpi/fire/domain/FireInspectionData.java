@@ -6,7 +6,6 @@ import static kpi.fire.util.MathUtils.sum;
 
 public class FireInspectionData {
 
-
     private double volume;
     private ApertureData apertureData;
     private MaterialData materialData;
@@ -108,4 +107,15 @@ public class FireInspectionData {
         return firstAuxiliarySum * 2.4 * totalSolidMaterialLoads
                 / (6285 * totalApertureSpace * sqrt(getReducedH()) * secondAuxiliarySum);
     }
+
+    public double limitFireDuration(double fireDuration) {
+        if (fireDuration < 0.15) {
+            return 0.15;
+        }
+        if (fireDuration > 1.22) {
+            return 1.22;
+        }
+        return fireDuration;
+    }
+
 }

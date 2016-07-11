@@ -24,6 +24,8 @@ public class Task2 implements ReportableTask {
         } else {
             double fireDuration = data.computeFireDuration();
 
+            fireDuration = data.limitFireDuration(fireDuration);
+
             if (fireDuration >= 0.15 && fireDuration <= 1.22) {
                 double fireLoad = sum(data.getMaterialData().getSolidMaterialsLoads()) / data.getFloorArea();
                 result = 940 * exp(0.0047 * (fireLoad - 30));
@@ -49,17 +51,12 @@ public class Task2 implements ReportableTask {
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
         builder.append(description + ":").append(System.lineSeparator())
-                .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator());
-        if (data.computeFireDuration() < 0.15) {
-            builder.append("Характерна трівалість пожежі занадно мала");
-        } else if (data.computeFireDuration() > 1.22) {
-            builder.append("Характерна трівалість пожежі занадно велика");
-        } else {
-            builder.append("Максимальна середньооб'ємна температура: ")
-                    .append(new Formatter().format("%.2f", computeMaxVolumeAverageTemperature()) + " K.").append(System.lineSeparator())
-                    .append("Час досягнення максимального значення середньооб'ємної температури: ")
-                    .append(new Formatter().format("%.2f", computeMaxTemperatureTime()) + " год.").append(System.lineSeparator());
-        }
+                .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator())
+                .append("Максимальна середньооб'ємна температура: ")
+                .append(new Formatter().format("%.2f", computeMaxVolumeAverageTemperature()) + " K.").append(System.lineSeparator())
+                .append("Час досягнення максимального значення середньооб'ємної температури: ")
+                .append(new Formatter().format("%.2f", computeMaxTemperatureTime()) + " год.").append(System.lineSeparator());
         return builder.toString();
     }
+
 }
