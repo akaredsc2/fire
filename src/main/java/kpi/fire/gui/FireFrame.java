@@ -129,38 +129,6 @@ public class FireFrame extends JFrame {
         }
     }
 
-    private class NumberAperture implements ActionListener {
-
-        public void actionPerformed(ActionEvent event) {
-            if (!isCorrectInput(textFieldMap.get("numberAperture").getText())) {
-                messageIncorrectData(textArea);
-                return;
-            }
-
-            JPanel textFieldsForAreaAndHeightNew = new JPanel();
-
-            int number = Integer.parseInt(textFieldMap.get("numberAperture").getText());
-            apertureComponentList = new LinkedList<>();
-            for (int i = 0; i < number; i++) {
-                apertureComponentList.add(new ApertureComponent((i + 1) + ". Площа (м2)", "Висота (м)"));
-            }
-
-            textFieldsForAreaAndHeightNew.setLayout(new GridLayout(number, 1));
-            for (ApertureComponent component : apertureComponentList) {
-                component.addToPanel(textFieldsForAreaAndHeightNew);
-            }
-
-            aperturePanel.add(textFieldsForAreaAndHeightNew);
-
-            aperturePanel.remove(textFieldsForAreaAndHeight);
-            aperturePanel.revalidate();
-            aperturePanel.repaint();
-
-            textFieldsForAreaAndHeight = textFieldsForAreaAndHeightNew;
-
-        }
-    }
-
     private void createOuterPanel() {
         JPanel panelOuter = new JPanel();
         panelOuter.setLayout(new BoxLayout(panelOuter, BoxLayout.PAGE_AXIS));
@@ -211,7 +179,34 @@ public class FireFrame extends JFrame {
 
         aperturePanel.add(createLabelAndSetFont("Кількість пройомів:", false));
         aperturePanel.add(textFieldMap.get("numberAperture"));
-        addButtonToPanel(aperturePanel, "", new NumberAperture(), "+");
+        addButtonToPanel(aperturePanel, "", (event) -> {
+            if (!isCorrectInput(textFieldMap.get("numberAperture").getText())) {
+                messageIncorrectData(textArea);
+                return;
+            }
+
+            JPanel textFieldsForAreaAndHeightNew = new JPanel();
+
+            int number = Integer.parseInt(textFieldMap.get("numberAperture").getText());
+            apertureComponentList = new LinkedList<>();
+            for (int i = 0; i < number; i++) {
+                apertureComponentList.add(new ApertureComponent((i + 1) + ". Площа (м2)", "Висота (м)"));
+            }
+
+            textFieldsForAreaAndHeightNew.setLayout(new GridLayout(number, 1));
+            for (ApertureComponent component : apertureComponentList) {
+                component.addToPanel(textFieldsForAreaAndHeightNew);
+            }
+
+            aperturePanel.add(textFieldsForAreaAndHeightNew);
+
+            aperturePanel.remove(textFieldsForAreaAndHeight);
+            aperturePanel.revalidate();
+            aperturePanel.repaint();
+
+            textFieldsForAreaAndHeight = textFieldsForAreaAndHeightNew;
+        }, "+");
+
         panelOuter.add(aperturePanel);
 
         add(panelOuter, BorderLayout.NORTH);
@@ -270,11 +265,7 @@ public class FireFrame extends JFrame {
 
     private JLabel createLabelAndSetFont(String nameLabel, boolean isBias) {
         JLabel label;
-        if (isBias) {
-            label = new JLabel(nameLabel, SwingConstants.RIGHT);
-        } else {
-            label = new JLabel(nameLabel);
-        }
+        label = (isBias) ? new JLabel(nameLabel, SwingConstants.RIGHT) : new JLabel(nameLabel);
         label.setFont(new Font("Serif", Font.BOLD, 20));
         return label;
     }
