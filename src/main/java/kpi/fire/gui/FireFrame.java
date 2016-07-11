@@ -28,9 +28,11 @@ public class FireFrame extends JFrame {
     public FireFrame() {
         materialCheckboxContainers = new LinkedList<>();
         materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("ДСП", 0.0, 4.4, 18.0, 14.0)));
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Вагонка", 0.0, 4.3, 13.8, 14.0)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Вагонка", 0.0, 4.2, 13.8, 2.4)));
         materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластмаса", 0.0, 5.6, 41.87, 14.4)));
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Дерево", 0.0, 4.2, 13.8, 2.4)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Паралон", 0.0, 4.2, 13.8, 2.4)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластик1", 0.0, 4.2, 13.8, 2.4)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластик2", 0.0, 4.2, 13.8, 2.4)));
 
         textFieldMap = new TreeMap<>();
         textFieldMap.put("temperatureTw", new JTextField(5));
@@ -50,6 +52,7 @@ public class FireFrame extends JFrame {
         textArea = new JTextArea(50, 50);
         JScrollPane scrollPane = new JScrollPane(textArea);
         add(scrollPane, BorderLayout.CENTER);
+        textArea.setFont(new Font("Arial", Font.PLAIN, 18));
 
         createMenuPanel();
     }
@@ -105,9 +108,9 @@ public class FireFrame extends JFrame {
                         .setHeight(Double.parseDouble(textFieldMap.get("height").getText()))
                         .setMaterialData(new MaterialData(materials))
                         .setLowestWoodBurnHeat(13.8)
-                        .setInitialVolumeAverageTemperature(Double.parseDouble(textFieldMap.get("temperatureT").getText()))
+                        .setInitialVolumeAverageTemperature(Double.parseDouble(textFieldMap.get("temperatureT").getText() + 273))
                         .setInitialAverageOverlappingAreaTemperature(
-                                Double.parseDouble(textFieldMap.get("temperatureTw").getText()));
+                                Double.parseDouble(textFieldMap.get("temperatureTw").getText() + 273));
 
                 FireStats stat = FireStats.computeFireStats(data);
 
@@ -140,19 +143,20 @@ public class FireFrame extends JFrame {
         panelData.setLayout(new GridLayout(3, 1));
 
         JPanel panelForVolumeAndHeight = new JPanel();
-        panelForVolumeAndHeight.add(new JLabel("Об'єм (м3): ", SwingConstants.RIGHT));
+
+        panelForVolumeAndHeight.add(createLabelAndSetFont("Об'єм (м3): ", true));
         panelForVolumeAndHeight.add(textFieldMap.get("volume"));
-        panelForVolumeAndHeight.add(new JLabel("Висота (м): ", SwingConstants.RIGHT));
+        panelForVolumeAndHeight.add(createLabelAndSetFont("Висота (м): ", true));
         panelForVolumeAndHeight.add(textFieldMap.get("height"));
         panelData.add(panelForVolumeAndHeight);
 
         JPanel panelForTemperatureT = new JPanel();
-        panelForTemperatureT.add(new JLabel("Початкова середньооб'ємна температура (K): ", SwingConstants.RIGHT));
+        panelForTemperatureT.add(createLabelAndSetFont("Початкова середньооб'ємна температура (C): ", true));
         panelForTemperatureT.add(textFieldMap.get("temperatureT"));
         panelData.add(panelForTemperatureT);
 
         JPanel panelForTemperatureTw = new JPanel();
-        panelForTemperatureTw.add(new JLabel("Початкова середня температура поверхності перекриття (K): ", SwingConstants.RIGHT));
+        panelForTemperatureTw.add(createLabelAndSetFont("Початкова середня температура поверхності перекриття (C): ", true));
         panelForTemperatureTw.add(textFieldMap.get("temperatureTw"));
         panelData.add(panelForTemperatureTw);
 
@@ -162,14 +166,14 @@ public class FireFrame extends JFrame {
 
         // TODO: 08-Jul-16 extract method
         JPanel panelOuterForMaterial = new JPanel();
-        panelOuterForMaterial.add(new JLabel("Горючі тверді матеріали:"));
+        panelOuterForMaterial.add(createLabelAndSetFont("Горючі тверді матеріали:", false));
         for (MaterialCheckboxContainer container : materialCheckboxContainers) {
             panelOuterForMaterial.add(container.getCheckBox());
         }
         panelOuter.add(panelOuterForMaterial);
 
         JPanel panelOuterForHeaver = new JPanel();
-        panelOuterForHeaver.add(new JLabel("Пожежна нагрузка (кг):"));
+        panelOuterForHeaver.add(createLabelAndSetFont("Пожежна нагрузка (кг):", false));
         for (MaterialCheckboxContainer container : materialCheckboxContainers) {
             panelOuterForHeaver.add(container.getTextField());
         }
@@ -177,7 +181,7 @@ public class FireFrame extends JFrame {
 
         JPanel aperturePanel = new JPanel(new GridLayout(6, 1));
         JPanel panelForLabel = new JPanel();
-        panelForLabel.add(new JLabel("Характеристики пройомів приміщення (площа та висота):"));
+        panelForLabel.add(createLabelAndSetFont("Характеристики пройомів приміщення (площа та висота):", false));
         aperturePanel.add(panelForLabel);
         for (ApertureComponent component : apertureComponentList) {
             component.addToPanel(aperturePanel);
@@ -189,8 +193,9 @@ public class FireFrame extends JFrame {
 
     private void addButtonToPanel(JPanel panel, String labelText, ActionListener listener) {
         JPanel p = new JPanel();
-        p.add(new JLabel(labelText, SwingConstants.RIGHT));
+        p.add(createLabelAndSetFont(labelText, true));
         JButton buttonComputeTask = new JButton("Обчислити");
+        buttonComputeTask.setFont(new Font("Arial", Font.PLAIN, 18));
         p.add(buttonComputeTask);
         buttonComputeTask.addActionListener(listener);
         panel.add(p);
@@ -237,4 +242,14 @@ public class FireFrame extends JFrame {
         textArea.append(new String(new char[120]).replace("\0", "-") + '\n');
     }
 
+    private JLabel createLabelAndSetFont(String nameLabel, boolean isBias) {
+        JLabel label;
+        if (isBias) {
+            label = new JLabel(nameLabel, SwingConstants.RIGHT);
+        } else {
+            label = new JLabel(nameLabel);
+        }
+        label.setFont(new Font("Serif", Font.BOLD, 20));
+        return label;
+    }
 }

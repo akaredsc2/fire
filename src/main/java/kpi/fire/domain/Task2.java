@@ -48,15 +48,17 @@ public class Task2 implements ReportableTask {
     @Override
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
-        builder.append(description + ":").append(System.lineSeparator())
+        builder.append(description)
+                .append(":")
+                .append(System.lineSeparator())
                 .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator());
         if (data.computeFireDuration() < 0.15) {
-            builder.append("Характерна трівалість пожежі занадно мала");
+            builder.append("Характерна трівалість пожежі занадно мала").append(System.lineSeparator());
         } else if (data.computeFireDuration() > 1.22) {
-            builder.append("Характерна трівалість пожежі занадно велика");
+            builder.append("Характерна трівалість пожежі занадно велика").append(System.lineSeparator());
         } else {
             builder.append("Максимальна середньооб'ємна температура: ")
-                    .append(new Formatter().format("%.2f", computeMaxVolumeAverageTemperature()) + " K.").append(System.lineSeparator())
+                    .append(new Formatter().format("%.2f", computeMaxVolumeAverageTemperature() - 273) + " C.").append(System.lineSeparator())
                     .append("Час досягнення максимального значення середньооб'ємної температури: ")
                     .append(new Formatter().format("%.2f", computeMaxTemperatureTime()) + " год.").append(System.lineSeparator());
         }

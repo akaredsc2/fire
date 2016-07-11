@@ -50,15 +50,17 @@ public class Task4 implements ReportableTask {
     @Override
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
-        builder.append(description + ":").append(System.lineSeparator())
+        builder.append(description)
+                .append(":")
+                .append(System.lineSeparator())
                 .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator());
         if (data.computeFireDuration() < 0.15) {
-            builder.append("Характерна трівалість пожежі занадно мала");
+            builder.append("Характерна тривалість пожежі занадно мала").append(System.lineSeparator());
         } else if (data.computeFireDuration() > 1.22) {
-            builder.append("Характерна трівалість пожежі занадно велика");
+            builder.append("Характерна тривалість пожежі занадно велика").append(System.lineSeparator());
         } else {
             builder.append("Максимальна усереднина температура поверхні стін: ")
-                    .append(new Formatter().format("%.2f", computeMaxTemperature()) + " K.").append(System.lineSeparator())
+                    .append(new Formatter().format("%.2f", computeMaxTemperature() - 273) + " C.").append(System.lineSeparator())
                     .append("Час досягнення максильного значення усередненої температури поверхні стін: ")
                     .append(new Formatter().format("%.2f", computeTimeAchievementMaxTemperature()) + " год.").append(System.lineSeparator());
         }

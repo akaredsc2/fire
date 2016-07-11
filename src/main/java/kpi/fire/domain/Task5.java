@@ -66,12 +66,14 @@ public class Task5 implements ReportableTask {
     @Override
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
-        builder.append(description + ":").append(System.lineSeparator())
+        builder.append(description)
+                .append(":")
+                .append(System.lineSeparator())
                 .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator());
         if (data.computeFireDuration() < 0.15) {
-            builder.append("Характерна трівалість пожежі занадно мала");
+            builder.append("Характерна трівалість пожежі занадно мала").append(System.lineSeparator());
         } else if (data.computeFireDuration() > 1.22) {
-            builder.append("Характерна трівалість пожежі занадно велика");
+            builder.append("Характерна трівалість пожежі занадно велика").append(System.lineSeparator());
         } else {
             builder.append("Максимальна усереднина щільність ефективного потоку в конструкції стін: ")
                     .append(new Formatter().format("%.2f", computeMaxDensityForWallConstruction()) + " кВт/м2.").append(System.lineSeparator())
