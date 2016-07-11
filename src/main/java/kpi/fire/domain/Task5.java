@@ -66,7 +66,9 @@ public class Task5 implements ReportableTask {
     @Override
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
-        builder.append(description + ":").append(System.lineSeparator())
+        builder.append(description)
+                .append(":")
+                .append(System.lineSeparator())
                 .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator())
                 .append("Максимальна усереднина щільність ефективного потоку в конструкції стін: ")
                 .append(new Formatter().format("%.2f", computeMaxDensityForWallConstruction()) + " кВт/м2.").append(System.lineSeparator())

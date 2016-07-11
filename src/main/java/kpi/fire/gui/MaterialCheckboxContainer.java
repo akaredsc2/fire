@@ -3,6 +3,7 @@ package kpi.fire.gui;
 import kpi.fire.domain.Material;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class MaterialCheckboxContainer {
 
@@ -14,6 +15,7 @@ public class MaterialCheckboxContainer {
         this.material = material;
 
         checkBox = new JCheckBox(material.getName());
+        checkBox.setFont(new Font("Arial", Font.BOLD, 16));
         checkBox.addActionListener(event -> textField.setEnabled(checkBox.isSelected()));
 
         textField = new JTextField(5);

@@ -44,10 +44,12 @@ public class Task3 implements ReportableTask {
     @Override
     public String reportTask(String description) {
         StringBuilder builder = new StringBuilder();
-        builder.append(description + ":").append(System.lineSeparator())
+        builder.append(description)
+                .append(":")
+                .append(System.lineSeparator())
                 .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator())
                 .append("Максимальна усереднина температура поверхні перекриття: ")
-                .append(new Formatter().format("%.2f",computeMaxAverageOverlappingAreaTemperature()) + " K.").append(System.lineSeparator())
+                .append(new Formatter().format("%.2f",computeMaxAverageOverlappingAreaTemperature() - 273) + " C.").append(System.lineSeparator())
                 .append("Час досягнення максильного значення усередньої температури поверхні перекриття: ")
                 .append(new Formatter().format("%.2f",computeMaxAverageTemperatureTime()) + " год.").append(System.lineSeparator());
         return builder.toString();

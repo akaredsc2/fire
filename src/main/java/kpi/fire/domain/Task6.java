@@ -40,7 +40,7 @@ public class Task6 implements ReportableTask {
                 builder.append("Не переносимо, при ураженні більше ніж 50% шкіри настає летальний випадок");
             }
         } else {
-            builder.append("У ГОСТ Р 12.3.047-98 відсутня інформація для даної ситуації");
+            builder.append("У ГОСТ Р 12.3.047-98 відсутня інформація для даної ситуації").append(System.lineSeparator());
         }
             builder.append(System.lineSeparator());
         return builder.toString();
