@@ -28,10 +28,9 @@ public class FireFrame extends JFrame {
         materialCheckboxContainers = new LinkedList<>();
         materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("ДСП", 0.0, 4.4, 18.0, 14.0)));
         materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Вагонка", 0.0, 4.2, 13.8, 2.4)));
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластмаса", 0.0, 5.6, 41.87, 14.4)));
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Паралон", 0.0, 4.2, 13.8, 2.4)));
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластик1", 0.0, 4.2, 13.8, 2.4)));
-        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Пластик2", 0.0, 4.2, 13.8, 2.4)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Линолеум", 0.0, 5.0, 14.0, 13.7)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Карболитові вироби", 0.0, 7.1, 26.9, 9.5)));
+        materialCheckboxContainers.add(new MaterialCheckboxContainer(new Material("Поліпропілен", 0.0, 6.5, 45.67, 14.5)));
 
         textFieldMap = new TreeMap<>();
         textFieldMap.put("temperatureTw", new JTextField(5));
