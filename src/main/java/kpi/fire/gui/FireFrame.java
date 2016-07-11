@@ -46,10 +46,18 @@ public class FireFrame extends JFrame {
 
         createOuterPanel();
 
+
+
         textArea = new JTextArea(50, 50);
         JScrollPane scrollPane = new JScrollPane(textArea);
         add(scrollPane, BorderLayout.CENTER);
         textArea.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        JPanel panelNumberAperture = new JPanel();
+        panelNumberAperture.add(createLabelAndSetFont("Кількість пройомів:", false));
+        panelNumberAperture.add(textFieldMap.get("numberAperture"));
+        addButtonToPanel(panelNumberAperture, "+", new NumberAperture());
+        aperturePanel.add(panelNumberAperture);
 
         createMenuPanel();
     }
@@ -205,22 +213,24 @@ public class FireFrame extends JFrame {
 
         /////////////////
 
-        aperturePanel = new JPanel(new GridLayout(3, 1));
-        JPanel panelForLabel = new JPanel();
-        panelForLabel.add(createLabelAndSetFont("Характеристики пройомів приміщення (площа та висота):", false));
-        aperturePanel.add(panelForLabel);
-
-        JPanel panelNumberAperture = new JPanel();
-        panelNumberAperture.add(createLabelAndSetFont("Кількість пройомів:", false));
-        panelNumberAperture.add(textFieldMap.get("numberAperture"));
-        addButtonToPanel(panelNumberAperture, "+", new NumberAperture());
-        aperturePanel.add(panelNumberAperture);
+//        aperturePanel = new JPanel(new GridLayout(3, 1));
+//        JPanel panelForLabel = new JPanel();
+//        panelForLabel.add(createLabelAndSetFont("Характеристики пройомів приміщення (площа та висота):", false));
+//        aperturePanel.add(panelForLabel);
+//
+//        JPanel panelNumberAperture = new JPanel();
+//        panelNumberAperture.add(createLabelAndSetFont("Кількість пройомів:", false));
+//        panelNumberAperture.add(textFieldMap.get("numberAperture"));
+//        addButtonToPanel(panelNumberAperture, "+", new NumberAperture());
+//        aperturePanel.add(panelNumberAperture);
 
 
 //        for (ApertureComponent component : apertureComponentList) {
 //            component.addToPanel(aperturePanel);
 //        }
 
+
+        aperturePanel = new JPanel();
         textFieldsForAreaAndHeight = new JPanel();
         //aperturePanel.add(textFieldsForAreaAndHeight);
 
