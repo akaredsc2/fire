@@ -3,6 +3,7 @@ package kpi.fire.gui;
 import kpi.fire.domain.Aperture;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ApertureComponent implements GuiComponent {
 
@@ -16,8 +17,10 @@ public class ApertureComponent implements GuiComponent {
     public ApertureComponent(String textForArea, String textForHeight) {
         areaTextField = new JTextField(5);
         areaLabel = new JLabel(textForArea);
+        areaLabel.setFont(new Font("Serif", Font.BOLD, 16));
         heightTextField = new JTextField(5);
         heightLabel = new JLabel(textForHeight);
+        heightLabel.setFont(new Font("Serif", Font.BOLD, 16));
 
         aperture = new Aperture(0.0, 0.0);
     }

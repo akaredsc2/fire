@@ -6,10 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class FireFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 1280;
@@ -17,14 +15,14 @@ public class FireFrame extends JFrame {
     private final JTextArea textArea;
     private List<MaterialCheckboxContainer> materialCheckboxContainers;
     private Map<String, JTextField> textFieldMap;
-    private List<ApertureComponent> apertureComponentList;
+    private List<ApertureComponent> apertureComponentList =  new LinkedList<>();
     private String task2 = "Розрахунок средньооб'ємної температури";
     private String task3 = "Розрахунок середньої температури поверхності перекриття";
     private String task4 = "Розрахунок середньої температури поверхності стін";
     private String task5 = "Розрахунок щільності ефективного теплового потоку в конструкції стін та перекриття";
     private String task6 = "Розрахунок максимальної щільності теплового потоку з продуктами горіння, що йдуть через пройоми";
-    private JPanel aperturePanel;
-    private JPanel textFieldsForAreaAndHeight;
+    private JPanel aperturePanel = new JPanel();
+    private JPanel textFieldsForAreaAndHeight = new JPanel();
 
     public FireFrame() {
         materialCheckboxContainers = new LinkedList<>();
@@ -46,18 +44,10 @@ public class FireFrame extends JFrame {
 
         createOuterPanel();
 
-
-
         textArea = new JTextArea(50, 50);
         JScrollPane scrollPane = new JScrollPane(textArea);
         add(scrollPane, BorderLayout.CENTER);
         textArea.setFont(new Font("Arial", Font.PLAIN, 18));
-
-        JPanel panelNumberAperture = new JPanel();
-        panelNumberAperture.add(createLabelAndSetFont("Кількість пройомів:", false));
-        panelNumberAperture.add(textFieldMap.get("numberAperture"));
-        addButtonToPanel(panelNumberAperture, "+", new NumberAperture());
-        aperturePanel.add(panelNumberAperture);
 
         createMenuPanel();
     }
@@ -71,12 +61,12 @@ public class FireFrame extends JFrame {
         }
 
         public void actionPerformed(ActionEvent event) {
-            if (!isCorrectInput(textFieldMap.get("volume").getText()) ||
-                    !isCorrectInput(textFieldMap.get("height").getText()) ||
-                    !isCorrectInput(textFieldMap.get("temperatureT").getText()) ||
-                    !isCorrectInput(textFieldMap.get("temperatureTw").getText())) {
-                messageIncorrectData(textArea);
-                return;
+            List<String> listKey = new ArrayList<>(textFieldMap.keySet());
+            for (String key: listKey) {
+                if (!isCorrectInput(textFieldMap.get(key).getText())) {
+                    messageIncorrectData(textArea);
+                    return;
+                }
             }
 
             Material[] materials = materialCheckboxContainers.stream()
@@ -143,7 +133,12 @@ public class FireFrame extends JFrame {
     private class NumberAperture implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
-            JPanel textFieldsForAreaAndHeight1 = new JPanel();
+            if (!isCorrectInput(textFieldMap.get("numberAperture").getText())) {
+                messageIncorrectData(textArea);
+                return;
+            }
+
+            JPanel textFieldsForAreaAndHeightNew = new JPanel();
 
             int number = Integer.parseInt(textFieldMap.get("numberAperture").getText());
             apertureComponentList = new LinkedList<>();
@@ -151,18 +146,18 @@ public class FireFrame extends JFrame {
                 apertureComponentList.add(new ApertureComponent((i + 1) + ". Площа (м2)", "Висота (м)"));
             }
 
-            textFieldsForAreaAndHeight1.setLayout(new GridLayout(number, 1));
+            textFieldsForAreaAndHeightNew.setLayout(new GridLayout(number, 1));
             for (ApertureComponent component : apertureComponentList) {
-                component.addToPanel(textFieldsForAreaAndHeight1);
+                component.addToPanel(textFieldsForAreaAndHeightNew);
             }
 
-            aperturePanel.add(textFieldsForAreaAndHeight1);
+            aperturePanel.add(textFieldsForAreaAndHeightNew);
 
             aperturePanel.remove(textFieldsForAreaAndHeight);
             aperturePanel.revalidate();
             aperturePanel.repaint();
 
-            textFieldsForAreaAndHeight = textFieldsForAreaAndHeight1;
+            textFieldsForAreaAndHeight = textFieldsForAreaAndHeightNew;
 
         }
     }
@@ -211,39 +206,22 @@ public class FireFrame extends JFrame {
         }
         panelOuter.add(panelOuterForHeaver);
 
-        /////////////////
+        JPanel panelForLabel = new JPanel();
+        panelForLabel.add(createLabelAndSetFont("Характеристики пройомів приміщення (площа та висота):", false));
+        panelOuter.add(panelForLabel);
 
-//        aperturePanel = new JPanel(new GridLayout(3, 1));
-//        JPanel panelForLabel = new JPanel();
-//        panelForLabel.add(createLabelAndSetFont("Характеристики пройомів приміщення (площа та висота):", false));
-//        aperturePanel.add(panelForLabel);
-//
-//        JPanel panelNumberAperture = new JPanel();
-//        panelNumberAperture.add(createLabelAndSetFont("Кількість пройомів:", false));
-//        panelNumberAperture.add(textFieldMap.get("numberAperture"));
-//        addButtonToPanel(panelNumberAperture, "+", new NumberAperture());
-//        aperturePanel.add(panelNumberAperture);
-
-
-//        for (ApertureComponent component : apertureComponentList) {
-//            component.addToPanel(aperturePanel);
-//        }
-
-
-        aperturePanel = new JPanel();
-        textFieldsForAreaAndHeight = new JPanel();
-        //aperturePanel.add(textFieldsForAreaAndHeight);
-
-
+        aperturePanel.add(createLabelAndSetFont("Кількість пройомів:", false));
+        aperturePanel.add(textFieldMap.get("numberAperture"));
+        addButtonToPanel(aperturePanel, "", new NumberAperture(), "+");
         panelOuter.add(aperturePanel);
 
         add(panelOuter, BorderLayout.NORTH);
     }
 
-    private void addButtonToPanel(JPanel panel, String labelText, ActionListener listener) {
+    private void addButtonToPanel(JPanel panel, String labelText, ActionListener listener, String buttonText) {
         JPanel p = new JPanel();
         p.add(createLabelAndSetFont(labelText, true));
-        JButton buttonComputeTask = new JButton("Обчислити");
+        JButton buttonComputeTask = new JButton(buttonText);
         buttonComputeTask.setFont(new Font("Arial", Font.PLAIN, 18));
         p.add(buttonComputeTask);
         buttonComputeTask.addActionListener(listener);
@@ -254,11 +232,11 @@ public class FireFrame extends JFrame {
         JPanel panelMenu = new JPanel();
         panelMenu.setLayout(new GridLayout(5, 1));
 
-        addButtonToPanel(panelMenu, "1. " + task2 + ": ", new TaskAction(task2));
-        addButtonToPanel(panelMenu, "2. " + task3 + ": ", new TaskAction(task3));
-        addButtonToPanel(panelMenu, "3. " + task4 + ": ", new TaskAction(task4));
-        addButtonToPanel(panelMenu, "4. " + task5 + ": ", new TaskAction(task5));
-        addButtonToPanel(panelMenu, "5. " + task6 + ": ", new TaskAction(task6));
+        addButtonToPanel(panelMenu, "1. " + task2 + ": ", new TaskAction(task2), "Обчислити");
+        addButtonToPanel(panelMenu, "2. " + task3 + ": ", new TaskAction(task3), "Обчислити");
+        addButtonToPanel(panelMenu, "3. " + task4 + ": ", new TaskAction(task4), "Обчислити");
+        addButtonToPanel(panelMenu, "4. " + task5 + ": ", new TaskAction(task5), "Обчислити");
+        addButtonToPanel(panelMenu, "5. " + task6 + ": ", new TaskAction(task6), "Обчислити");
 
         JPanel panelOuterForMenu = new JPanel();
         panelOuterForMenu.add(panelMenu);
