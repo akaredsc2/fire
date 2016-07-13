@@ -73,11 +73,11 @@ public class Task5 implements ReportableTask {
                 .append("Максимальна усереднина щільність ефективного потоку в конструкції стін: ")
                 .append(new Formatter().format("%.2f", computeMaxDensityForWallConstruction()) + " кВт/м2.").append(System.lineSeparator())
                 .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції стін: ")
-                .append(new Formatter().format("%.2f", computeTimeAchievementMaxDensityForWallConstruction()) + " год.").append(System.lineSeparator())
+                .append(new Formatter().format("%.2f", computeTimeAchievementMaxDensityForWallConstruction()) + " хв.").append(System.lineSeparator())
                 .append("Максимальна усереднина щільність ефективного потоку в конструкції покриття: ")
                 .append(new Formatter().format("%.2f", computeMaxDensityForCoverageConstruction()) + " кВт/м2.").append(System.lineSeparator())
                 .append("Час досягнення максимальної усередненої щільності ефективного потоку в конструкції покриття: ")
-                .append(new Formatter().format("%.2f", computeTimeAchievementMaxDensityForCoverageConstruction()) + " год.").append(System.lineSeparator());
+                .append(new Formatter().format("%.2f", computeTimeAchievementMaxDensityForCoverageConstruction()) + " хв.").append(System.lineSeparator());
         return builder.toString();
     }
 
