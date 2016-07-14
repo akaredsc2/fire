@@ -51,12 +51,13 @@ public class Task4 implements ReportableTask {
 
     @Override
     public String reportTask(String description) {
+        String timeUnit = (fireStats.getFireKind() == FireKind.LOAD_REGULATED) ? " хв." : " год.";
         StringBuilder builder = new StringBuilder();
         builder.append(description + ":").append(System.lineSeparator())
                 .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator()).append("Максимальна усереднина температура поверхні стін: ")
                 .append(new Formatter().format("%.2f", computeMaxTemperature() - 273) + " C.").append(System.lineSeparator())
                 .append("Час досягнення максильного значення усередненої температури поверхні стін: ")
-                .append(new Formatter().format("%.2f", computeTimeAchievementMaxTemperature()) + " год.").append(System.lineSeparator());
+                .append(new Formatter().format("%.2f", computeTimeAchievementMaxTemperature()) + timeUnit).append(System.lineSeparator());
         return builder.toString();
     }
 

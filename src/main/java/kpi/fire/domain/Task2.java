@@ -49,13 +49,14 @@ public class Task2 implements ReportableTask {
 
     @Override
     public String reportTask(String description) {
+        String timeUnit = (fireStats.getFireKind() == FireKind.LOAD_REGULATED) ? " хв." : " год.";
         StringBuilder builder = new StringBuilder();
         builder.append(description + ":").append(System.lineSeparator())
                 .append(fireStats.getFireKind().toUkrString()).append(System.lineSeparator())
                 .append("Максимальна середньооб'ємна температура: ")
                 .append(new Formatter().format("%.2f", computeMaxVolumeAverageTemperature() - 273) + " C.").append(System.lineSeparator())
                 .append("Час досягнення максимального значення середньооб'ємної температури: ")
-                .append(new Formatter().format("%.2f", computeMaxTemperatureTime()) + " год.").append(System.lineSeparator());
+                .append(new Formatter().format("%.2f", computeMaxTemperatureTime()) + timeUnit).append(System.lineSeparator());
         return builder.toString();
     }
 

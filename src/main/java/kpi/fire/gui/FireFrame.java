@@ -102,9 +102,9 @@ public class FireFrame extends JFrame {
                         .setHeight(Double.parseDouble(textFieldMap.get("height").getText()))
                         .setMaterialData(new MaterialData(materials))
                         .setLowestWoodBurnHeat(13.8)
-                        .setInitialVolumeAverageTemperature(Double.parseDouble(textFieldMap.get("temperatureT").getText() + 273))
+                        .setInitialVolumeAverageTemperature(Double.parseDouble(textFieldMap.get("temperatureT").getText()) + 273)
                         .setInitialAverageOverlappingAreaTemperature(
-                                Double.parseDouble(textFieldMap.get("temperatureTw").getText() + 273));
+                                Double.parseDouble(textFieldMap.get("temperatureTw").getText()) + 273);
 
                 FireStats stat = FireStats.computeFireStats(data);
 
